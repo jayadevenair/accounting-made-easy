@@ -25,13 +25,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    newquotationdialogue.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    newquotationdialogue.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    newquotationdialogue.ui
 
 RESOURCES += \
     resources.qrc
