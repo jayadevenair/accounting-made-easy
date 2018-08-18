@@ -35,7 +35,7 @@ void DbManager::createUserTable(void)
                 "addressline1 VARCHAR(30), "
                 "addressline2 VARCHAR(30), "
                 "city VARCHAR(30), "
-                " district VARCHAR(30), "
+                "district VARCHAR(30), "
                 "state VARCHAR(30), "
                 "pincode INTIGER)");
     if(!qry.exec())
@@ -80,6 +80,7 @@ void DbManager::createTripTable(void)
                 "arrivaldate VARCHAR(30), "
                 "arrivaltime VARCHAR(30), "
                 "numpassengers INITIGER, "
+                "numstaffs INTIGER, "
                 "vehicle VARCHAR(30))");
     if(!qry.exec())
     {
@@ -100,8 +101,10 @@ void DbManager::createExpenseTable(void)
                 "food INTIGER, "
                 "accomodation INTIGER, "
                 "transport INTIGER, "
+                "guidecharges INTIGER, "
                 "others INTIGER, "
                 "totalexpense INTIGER, "
+                "perheadamount INIGER, "
                 "totalreturn INTIGER, "
                 "profit INTIGER)");
     if(!qry.exec())
@@ -126,15 +129,18 @@ void DbManager::_addExpense(const DbExpense& expense)
 {
     QSqlQuery qry;
 
-    qry.prepare("INSERT INTO expense (bookingid, food, accomodation, transport, others, "
-                "totalexpense, totalreturn, profit) VALUES (:bookingid, :food, "
-                ":accomodation, :transport, :others, :totalexpense, :totalreturn, :profit)");
+    qry.prepare("INSERT INTO expense (bookingid, food, accomodation, transport, guidecharges, "
+                "others, totalexpense, perheadamount, totalreturn, profit) VALUES (:bookingid, "
+                ":food, :accomodation, :transport, :guidecharges, :others, :totalexpense, "
+                ":perheadamount, :totalreturn, :profit)");
     qry.bindValue(":bookingid", expense.bookingId);
     qry.bindValue(":food", expense.food);
     qry.bindValue(":accomodation", expense.accomodation);
     qry.bindValue(":transport", expense.transport);
+    qry.bindValue(":guidecharges", expense.guideCharges);
     qry.bindValue(":others", expense.others);
     qry.bindValue(":totalexpense", expense.totalExpense);
+    qry.bindValue(":perheadamount", expense.perHeadAmount);
     qry.bindValue(":totalreturn", expense.totalReturn);
     qry.bindValue(":profit", expense.profit);
 
@@ -150,7 +156,8 @@ void DbManager::_addUser(const DbUser& user)
 
     qry.prepare("INSERT INTO user (mobileno, firstname, lastname, addressline1, addressline2, "
                 "city, district, state, pincode) VALUES (:mobileno, :firstname, "
-                ":lastname, :addressline1, :addressline2, :city, :district, :profit, :pincode)");
+                ":lastname, :addressline1, :addressline2, :city, :district, :state, "
+                ":profit, :pincode)");
     qry.bindValue(":mobileno", user.mobileNumber);
     qry.bindValue(":firstname", user.firstName);
     qry.bindValue(":lastname", user.lastName);
@@ -190,9 +197,9 @@ void DbManager::_addTrip(const DbTrip& trip)
     QSqlQuery qry;
 
     qry.prepare("INSERT INTO trip (bookingid, destination, departuredate, departuretime, "
-                "arrivaldate, arrivaltime, numpassengers, vehicle) VALUES (:bookingid, "
-                ":destination, :departuredate, :departuretime, :arrivaldate, :arrivaltime, "
-                ":numpassengers, :vehicle)");
+                "arrivaldate, arrivaltime, numpassengers, numstaffs, vehicle) "
+                "VALUES (:bookingid, :destination, :departuredate, :departuretime, :arrivaldate, "
+                ":arrivaltime, :numpassengers, numstaffs, :vehicle)");
     qry.bindValue(":bookingid", trip.bookingId);
     qry.bindValue(":destination", trip.destination);
     qry.bindValue(":departuredate", trip.departureDate);
@@ -200,6 +207,7 @@ void DbManager::_addTrip(const DbTrip& trip)
     qry.bindValue(":arrivaldate", trip.arrivalDate);
     qry.bindValue(":arrivaltime", trip.arrivalTime);
     qry.bindValue(":numpassengers", trip.numPassengers);
+    qry.bindValue(":numstaffs", trip.numStaffs);
     qry.bindValue(":vehicle", trip.vehicle);
 
      if( !qry.exec() )

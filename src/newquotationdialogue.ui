@@ -7,35 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>533</width>
-    <height>629</height>
+    <height>679</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>New Quotation Form</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>-10</x>
-     <y>590</y>
-     <width>461</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
-  <widget class="QFrame" name="frame">
+  <widget class="QFrame" name="frameCustomerDetails">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>20</y>
+     <y>10</y>
      <width>511</width>
-     <height>211</height>
+     <height>231</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -44,113 +28,123 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>20</y>
-      <width>485</width>
-      <height>174</height>
+      <x>11</x>
+      <y>21</y>
+      <width>491</width>
+      <height>205</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="9" colspan="2">
-      <widget class="QLineEdit" name="lineEdit_2"/>
-     </item>
-     <item row="5" column="9" colspan="2">
-      <widget class="QLineEdit" name="lineEdit_8"/>
-     </item>
-     <item row="1" column="3" colspan="4">
-      <widget class="QLineEdit" name="lineEdit"/>
-     </item>
-     <item row="4" column="7" colspan="2">
-      <widget class="QLabel" name="label_7">
+     <item row="0" column="0" colspan="2">
+      <widget class="QLabel" name="labelCustomerDetails">
        <property name="text">
-        <string>District:</string>
+        <string>Customer Details:-</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="9" colspan="2">
-      <widget class="QLineEdit" name="lineEdit_6"/>
-     </item>
-     <item row="4" column="0" colspan="3">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>City:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="3" colspan="4">
-      <widget class="QLineEdit" name="lineEdit_7"/>
-     </item>
-     <item row="1" column="0" colspan="3">
-      <widget class="QLabel" name="label_2">
+     <item row="1" column="0">
+      <widget class="QLabel" name="labelFirstName">
        <property name="text">
         <string>First Name:</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="0" colspan="3">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Address Line 2:</string>
-       </property>
-      </widget>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="lineEditFirstName"/>
      </item>
-     <item row="0" column="0" colspan="11">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Customer Details</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="3" colspan="8">
-      <widget class="QLineEdit" name="lineEdit_4"/>
-     </item>
-     <item row="2" column="3" colspan="8">
-      <widget class="QLineEdit" name="lineEdit_3"/>
-     </item>
-     <item row="1" column="7" colspan="2">
-      <widget class="QLabel" name="label_3">
+     <item row="1" column="2">
+      <widget class="QLabel" name="labelLastName">
        <property name="text">
         <string>Last Name:</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="0" colspan="3">
-      <widget class="QLabel" name="label_4">
+     <item row="1" column="3">
+      <widget class="QLineEdit" name="lineEditLastName"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="labelAddressLine1">
        <property name="text">
         <string>Address Line 1:</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="7" colspan="2">
-      <widget class="QLabel" name="label_9">
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="lineEditAddressLine1"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="labelAddressLine2">
        <property name="text">
-        <string>Mobile No:</string>
+        <string>Address Line 2:</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="0" colspan="3">
-      <widget class="QLabel" name="label_8">
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="lineEditAddressLine2"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="labelCity">
+       <property name="text">
+        <string>City:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="lineEditCity"/>
+     </item>
+     <item row="4" column="2">
+      <widget class="QLabel" name="labelDistrict">
+       <property name="text">
+        <string>District:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="3">
+      <widget class="QLineEdit" name="lineEditDistrict"/>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="labelState">
+       <property name="text">
+        <string>State:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLineEdit" name="lineEditState"/>
+     </item>
+     <item row="5" column="2">
+      <widget class="QLabel" name="labelPinCode">
        <property name="text">
         <string>Pin Code:</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="3" colspan="4">
-      <widget class="QLineEdit" name="lineEdit_5"/>
+     <item row="5" column="3">
+      <widget class="QLineEdit" name="lineEditPinCode"/>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="labelMobileNo">
+       <property name="text">
+        <string>Mobile No:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1" colspan="2">
+      <widget class="QLineEdit" name="lineEditMobileNo"/>
      </item>
     </layout>
    </widget>
   </widget>
-  <widget class="QFrame" name="frame_2">
+  <widget class="QFrame" name="frameTravelDetails">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>230</y>
+     <y>240</y>
      <width>511</width>
-     <height>211</height>
+     <height>231</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -163,79 +157,220 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
-      <width>481</width>
-      <height>177</height>
+      <y>10</y>
+      <width>491</width>
+      <height>211</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="2" column="3">
-      <widget class="QDateTimeEdit" name="dateTimeEdit_3"/>
-     </item>
-     <item row="1" column="0" colspan="3">
-      <widget class="QLabel" name="label_12">
-       <property name="text">
-        <string>Departure Date and Time:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0" colspan="3">
-      <widget class="QLabel" name="label_11">
-       <property name="text">
-        <string>No of People:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0" colspan="3">
-      <widget class="QLabel" name="label_13">
-       <property name="text">
-        <string>Vehicle:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0" colspan="5">
-      <widget class="QLabel" name="label_14">
+     <item row="0" column="0">
+      <widget class="QLabel" name="labelTravelDetails">
        <property name="text">
         <string>Travel Details:-</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="3" colspan="2">
-      <widget class="QLineEdit" name="lineEdit_14"/>
-     </item>
-     <item row="1" column="3">
-      <widget class="QDateTimeEdit" name="dateTimeEdit"/>
-     </item>
-     <item row="2" column="0" colspan="3">
-      <widget class="QLabel" name="label_16">
+     <item row="3" column="0" colspan="2">
+      <widget class="QLabel" name="labelArrivalDateTime">
        <property name="text">
         <string>Arrival Date and Time:</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="0" colspan="3">
-      <widget class="QLabel" name="label_18">
+     <item row="3" column="2">
+      <widget class="QDateTimeEdit" name="dateTimeEditArrival"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="labelVehicle">
+       <property name="text">
+        <string>Vehicle:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="labelDestinations">
+       <property name="text">
+        <string>Destinations:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QDateTimeEdit" name="dateTimeEditDeparture"/>
+     </item>
+     <item row="2" column="0" colspan="2">
+      <widget class="QLabel" name="labelDepartureDateTime">
+       <property name="text">
+        <string>Departure Date and Time:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="labelGuideName">
        <property name="text">
         <string>Guide Name:</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="3" colspan="2">
-      <widget class="QLineEdit" name="lineEdit_13"/>
+     <item row="5" column="0">
+      <widget class="QLabel" name="labelNoPassengers">
+       <property name="text">
+        <string>No of Passengers:</string>
+       </property>
+      </widget>
      </item>
-     <item row="4" column="3">
-      <widget class="QSpinBox" name="spinBox"/>
+     <item row="5" column="1">
+      <widget class="QSpinBox" name="spinBoxNoPassengers"/>
+     </item>
+     <item row="5" column="2">
+      <widget class="QLabel" name="labelNoStaffs">
+       <property name="text">
+        <string>                    No of Staffs:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="3">
+      <widget class="QSpinBox" name="spinBoxNoStaffs"/>
+     </item>
+     <item row="4" column="1" colspan="2">
+      <widget class="QLineEdit" name="lineEditVehicle"/>
+     </item>
+     <item row="1" column="1" colspan="2">
+      <widget class="QLineEdit" name="lineEditDestinations"/>
+     </item>
+     <item row="6" column="1" colspan="2">
+      <widget class="QLineEdit" name="lineEditGuideName"/>
      </item>
     </layout>
    </widget>
   </widget>
-  <widget class="QFrame" name="frame_3">
+  <widget class="QFrame" name="frameAccountDetails">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>440</y>
+     <y>470</y>
      <width>511</width>
-     <height>130</height>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="labelAccountDetails">
+    <property name="geometry">
+     <rect>
+      <x>11</x>
+      <y>11</y>
+      <width>116</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Account Details:-</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>34</y>
+      <width>489</width>
+      <height>120</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="0" column="3" colspan="2">
+      <widget class="QLabel" name="labelAccomodation">
+       <property name="text">
+        <string>Accomodation:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="5">
+      <widget class="QLineEdit" name="lineEditAccomodation"/>
+     </item>
+     <item row="1" column="3" colspan="2">
+      <widget class="QLabel" name="labelGuideCharges">
+       <property name="text">
+        <string>Guide Charges:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="5">
+      <widget class="QLineEdit" name="lineEditGuideCharges"/>
+     </item>
+     <item row="2" column="3" colspan="2">
+      <widget class="QLabel" name="labelTotalExpenses">
+       <property name="text">
+        <string>Total Expenses:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="5">
+      <widget class="QLineEdit" name="lineEditTotalExpenses"/>
+     </item>
+     <item row="3" column="0" colspan="2">
+      <widget class="QLabel" name="labelPerHeadAmount">
+       <property name="text">
+        <string>Per Head Amount:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="5">
+      <widget class="QLineEdit" name="lineEditBalance"/>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLineEdit" name="lineEditOthers"/>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="lineEditTransport"/>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLineEdit" name="lineEditFood"/>
+     </item>
+     <item row="0" column="0" colspan="2">
+      <widget class="QLabel" name="labelFood">
+       <property name="text">
+        <string>Food:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="2">
+      <widget class="QLabel" name="labelTransport">
+       <property name="text">
+        <string>Transport:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0" colspan="2">
+      <widget class="QLabel" name="labelOthers">
+       <property name="text">
+        <string>Others</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLineEdit" name="lineEditPerHeadAmount"/>
+     </item>
+     <item row="3" column="3" colspan="2">
+      <widget class="QLabel" name="labelBalance">
+       <property name="text">
+        <string>Profit:</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frameSubmission">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>630</y>
+     <width>511</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -249,67 +384,30 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>481</width>
-      <height>112</height>
+      <width>491</width>
+      <height>27</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout_3">
-     <item row="0" column="0" colspan="2">
-      <widget class="QLabel" name="label_20">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="labelAdminName">
        <property name="text">
-        <string>Account Details:-</string>
+        <string>Admin Name:       </string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_15">
-       <property name="text">
-        <string>Food:</string>
+     <item>
+      <widget class="QLineEdit" name="lineEditAdminName"/>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
        </property>
       </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEdit_9"/>
-     </item>
-     <item row="1" column="2">
-      <widget class="QLabel" name="label_10">
-       <property name="text">
-        <string>Accomodation:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="3">
-      <widget class="QLineEdit" name="lineEdit_10"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_17">
-       <property name="text">
-        <string>Vehicle:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="lineEdit_11"/>
-     </item>
-     <item row="2" column="2">
-      <widget class="QLabel" name="label_19">
-       <property name="text">
-        <string>Others:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="3">
-      <widget class="QLineEdit" name="lineEdit_12"/>
-     </item>
-     <item row="3" column="0" colspan="2">
-      <widget class="QLabel" name="label_21">
-       <property name="text">
-        <string>Total Amount Recieved: </string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2">
-      <widget class="QLineEdit" name="lineEdit_15"/>
      </item>
     </layout>
    </widget>

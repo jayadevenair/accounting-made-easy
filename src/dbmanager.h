@@ -13,8 +13,10 @@ public:
     qint32 food;
     qint32 accomodation;
     qint32 transport;
+    qint32 guideCharges;
     qint32 others;
     qint32 totalExpense;
+    qint32 perHeadAmount;
     qint32 totalReturn;
     qint32 profit;
 };
@@ -31,6 +33,7 @@ public:
     QString vehicle;
     QString guideName;
     QString numPassengers;
+    QString numStaffs;
 };
 
 class DbUser
