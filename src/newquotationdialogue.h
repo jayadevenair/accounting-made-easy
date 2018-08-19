@@ -2,6 +2,7 @@
 #define NEWQUOTATIONDIALOGUE_H
 
 #include <QDialog>
+#include "dbmanager.h"
 
 namespace Ui {
 class NewQuotationDialogue;
@@ -15,8 +16,20 @@ public:
     explicit NewQuotationDialogue(QWidget *parent = 0);
     ~NewQuotationDialogue();
 
+private slots:
+    void on_buttonBox_accepted();
+
+    void on_buttonBox_rejected();
+
 private:
     Ui::NewQuotationDialogue *ui;
+    void setupUiHuman(void);
+    void extractFieldsFromDialogueBox(void);
+    qint64 getNextBookingId(void);
+    DbUser user;
+    DbExpense expense;
+    DbBooking booking;
+    DbTrip trip;
 };
 
 #endif // NEWQUOTATIONDIALOGUE_H

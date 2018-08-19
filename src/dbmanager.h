@@ -32,8 +32,8 @@ public:
     QString destination;
     QString vehicle;
     QString guideName;
-    QString numPassengers;
-    QString numStaffs;
+    qint16 numPassengers;
+    qint16 numStaffs;
 };
 
 class DbUser
@@ -46,8 +46,8 @@ public:
     QString city;
     QString district;
     QString state;
-    QString pinCode;
-    QString mobileNumber;
+    qint32 pinCode;
+    qint64 mobileNumber;
 };
 
 class DbBooking
@@ -57,7 +57,7 @@ public:
     QString currentTime;
     QString adminName;
     qint64 bookingId;
-    QString mobileNumber;
+    qint64 mobileNumber;
 };
 
 class DbManager
@@ -66,19 +66,19 @@ public:
     DbManager(const QString& path);
     ~DbManager();
     void createTables(void);
-    void addExpenseEntry(const DbExpense& expense);
-    void addUserEntry(const DbUser& user);
-    void addBookingEntry(const DbBooking& booking);
-    void addTripEntry(const DbTrip& trip);
+    static void addExpenseEntry(const DbExpense& expense);
+    static void addUserEntry(const DbUser& user);
+    static void addBookingEntry(const DbBooking& booking);
+    static void addTripEntry(const DbTrip& trip);
 private:
     void createTripTable(void);
     void createUserTable(void);
     void createBookingTable(void);
     void createExpenseTable(void);
-    void _addExpense(const DbExpense& expense);
-    void _addUser(const DbUser& user);
-    void _addBooking(const DbBooking& booking);
-    void _addTrip(const DbTrip& trip);
+    static void _addExpense(const DbExpense& expense);
+    static void _addUser(const DbUser& user);
+    static void _addBooking(const DbBooking& booking);
+    static void _addTrip(const DbTrip& trip);
     QSqlDatabase m_db;
 };
 

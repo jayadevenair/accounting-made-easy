@@ -53,7 +53,11 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEditFirstName"/>
+      <widget class="QLineEdit" name="lineEditFirstName">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="1" column="2">
       <widget class="QLabel" name="labelLastName">
@@ -63,7 +67,11 @@
       </widget>
      </item>
      <item row="1" column="3">
-      <widget class="QLineEdit" name="lineEditLastName"/>
+      <widget class="QLineEdit" name="lineEditLastName">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="labelAddressLine1">
@@ -73,7 +81,11 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="lineEditAddressLine1"/>
+      <widget class="QLineEdit" name="lineEditAddressLine1">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="labelAddressLine2">
@@ -83,7 +95,11 @@
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QLineEdit" name="lineEditAddressLine2"/>
+      <widget class="QLineEdit" name="lineEditAddressLine2">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="4" column="0">
       <widget class="QLabel" name="labelCity">
@@ -93,7 +109,11 @@
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QLineEdit" name="lineEditCity"/>
+      <widget class="QLineEdit" name="lineEditCity">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="4" column="2">
       <widget class="QLabel" name="labelDistrict">
@@ -103,7 +123,11 @@
       </widget>
      </item>
      <item row="4" column="3">
-      <widget class="QLineEdit" name="lineEditDistrict"/>
+      <widget class="QLineEdit" name="lineEditDistrict">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="5" column="0">
       <widget class="QLabel" name="labelState">
@@ -113,7 +137,11 @@
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QLineEdit" name="lineEditState"/>
+      <widget class="QLineEdit" name="lineEditState">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="5" column="2">
       <widget class="QLabel" name="labelPinCode">
@@ -123,7 +151,14 @@
       </widget>
      </item>
      <item row="5" column="3">
-      <widget class="QLineEdit" name="lineEditPinCode"/>
+      <widget class="QLineEdit" name="lineEditPinCode">
+       <property name="inputMask">
+        <string>000000</string>
+       </property>
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="6" column="0">
       <widget class="QLabel" name="labelMobileNo">
@@ -133,7 +168,14 @@
       </widget>
      </item>
      <item row="6" column="1" colspan="2">
-      <widget class="QLineEdit" name="lineEditMobileNo"/>
+      <widget class="QLineEdit" name="lineEditMobileNo">
+       <property name="inputMask">
+        <string>0000000000</string>
+       </property>
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -195,7 +237,11 @@
       </widget>
      </item>
      <item row="2" column="2">
-      <widget class="QDateTimeEdit" name="dateTimeEditDeparture"/>
+      <widget class="QDateTimeEdit" name="dateTimeEditDeparture">
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="2" column="0" colspan="2">
       <widget class="QLabel" name="labelDepartureDateTime">
@@ -219,7 +265,11 @@
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QSpinBox" name="spinBoxNoPassengers"/>
+      <widget class="QSpinBox" name="spinBoxNoPassengers">
+       <property name="maximum">
+        <number>1000</number>
+       </property>
+      </widget>
      </item>
      <item row="5" column="2">
       <widget class="QLabel" name="labelNoStaffs">
@@ -232,13 +282,25 @@
       <widget class="QSpinBox" name="spinBoxNoStaffs"/>
      </item>
      <item row="4" column="1" colspan="2">
-      <widget class="QLineEdit" name="lineEditVehicle"/>
+      <widget class="QLineEdit" name="lineEditVehicle">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="1" column="1" colspan="2">
-      <widget class="QLineEdit" name="lineEditDestinations"/>
+      <widget class="QLineEdit" name="lineEditDestinations">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="6" column="1" colspan="2">
-      <widget class="QLineEdit" name="lineEditGuideName"/>
+      <widget class="QLineEdit" name="lineEditGuideName">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -271,7 +333,7 @@
      <string>Account Details:-</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -289,7 +351,11 @@
       </widget>
      </item>
      <item row="0" column="5">
-      <widget class="QLineEdit" name="lineEditAccomodation"/>
+      <widget class="QLineEdit" name="lineEditAccomodation">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="1" column="3" colspan="2">
       <widget class="QLabel" name="labelGuideCharges">
@@ -299,7 +365,11 @@
       </widget>
      </item>
      <item row="1" column="5">
-      <widget class="QLineEdit" name="lineEditGuideCharges"/>
+      <widget class="QLineEdit" name="lineEditGuideCharges">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="2" column="3" colspan="2">
       <widget class="QLabel" name="labelTotalExpenses">
@@ -309,7 +379,11 @@
       </widget>
      </item>
      <item row="2" column="5">
-      <widget class="QLineEdit" name="lineEditTotalExpenses"/>
+      <widget class="QLineEdit" name="lineEditTotalExpenses">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="3" column="0" colspan="2">
       <widget class="QLabel" name="labelPerHeadAmount">
@@ -319,16 +393,41 @@
       </widget>
      </item>
      <item row="3" column="5">
-      <widget class="QLineEdit" name="lineEditBalance"/>
+      <widget class="QLineEdit" name="lineEditBalance">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="placeholderText">
+        <string/>
+       </property>
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="2" column="2">
-      <widget class="QLineEdit" name="lineEditOthers"/>
+      <widget class="QLineEdit" name="lineEditOthers">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="1" column="2">
-      <widget class="QLineEdit" name="lineEditTransport"/>
+      <widget class="QLineEdit" name="lineEditTransport">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="0" column="2">
-      <widget class="QLineEdit" name="lineEditFood"/>
+      <widget class="QLineEdit" name="lineEditFood">
+       <property name="inputMask">
+        <string/>
+       </property>
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="0" column="0" colspan="2">
       <widget class="QLabel" name="labelFood">
@@ -352,7 +451,11 @@
       </widget>
      </item>
      <item row="3" column="2">
-      <widget class="QLineEdit" name="lineEditPerHeadAmount"/>
+      <widget class="QLineEdit" name="lineEditPerHeadAmount">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="3" column="3" colspan="2">
       <widget class="QLabel" name="labelBalance">
@@ -379,7 +482,7 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -397,7 +500,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEditAdminName"/>
+      <widget class="QLineEdit" name="lineEditAdminName">
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QDialogButtonBox" name="buttonBox">
@@ -413,6 +520,33 @@
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>lineEditFirstName</tabstop>
+  <tabstop>lineEditLastName</tabstop>
+  <tabstop>lineEditAddressLine1</tabstop>
+  <tabstop>lineEditAddressLine2</tabstop>
+  <tabstop>lineEditCity</tabstop>
+  <tabstop>lineEditState</tabstop>
+  <tabstop>lineEditDistrict</tabstop>
+  <tabstop>lineEditPinCode</tabstop>
+  <tabstop>lineEditMobileNo</tabstop>
+  <tabstop>lineEditDestinations</tabstop>
+  <tabstop>dateTimeEditDeparture</tabstop>
+  <tabstop>dateTimeEditArrival</tabstop>
+  <tabstop>lineEditVehicle</tabstop>
+  <tabstop>spinBoxNoPassengers</tabstop>
+  <tabstop>spinBoxNoStaffs</tabstop>
+  <tabstop>lineEditGuideName</tabstop>
+  <tabstop>lineEditFood</tabstop>
+  <tabstop>lineEditAccomodation</tabstop>
+  <tabstop>lineEditTransport</tabstop>
+  <tabstop>lineEditGuideCharges</tabstop>
+  <tabstop>lineEditOthers</tabstop>
+  <tabstop>lineEditTotalExpenses</tabstop>
+  <tabstop>lineEditPerHeadAmount</tabstop>
+  <tabstop>lineEditBalance</tabstop>
+  <tabstop>lineEditAdminName</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

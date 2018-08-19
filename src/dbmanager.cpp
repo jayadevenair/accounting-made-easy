@@ -157,7 +157,7 @@ void DbManager::_addUser(const DbUser& user)
     qry.prepare("INSERT INTO user (mobileno, firstname, lastname, addressline1, addressline2, "
                 "city, district, state, pincode) VALUES (:mobileno, :firstname, "
                 ":lastname, :addressline1, :addressline2, :city, :district, :state, "
-                ":profit, :pincode)");
+                ":pincode)");
     qry.bindValue(":mobileno", user.mobileNumber);
     qry.bindValue(":firstname", user.firstName);
     qry.bindValue(":lastname", user.lastName);
@@ -199,7 +199,7 @@ void DbManager::_addTrip(const DbTrip& trip)
     qry.prepare("INSERT INTO trip (bookingid, destination, departuredate, departuretime, "
                 "arrivaldate, arrivaltime, numpassengers, numstaffs, vehicle) "
                 "VALUES (:bookingid, :destination, :departuredate, :departuretime, :arrivaldate, "
-                ":arrivaltime, :numpassengers, numstaffs, :vehicle)");
+                ":arrivaltime, :numpassengers, :numstaffs, :vehicle)");
     qry.bindValue(":bookingid", trip.bookingId);
     qry.bindValue(":destination", trip.destination);
     qry.bindValue(":departuredate", trip.departureDate);
