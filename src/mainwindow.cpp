@@ -69,3 +69,33 @@ void MainWindow::addNewBookingToTree(QHash <QString, QString> &newBookingCache)
 
     ui->treeWidgetAllBooking->insertTopLevelItem(0, newBookingNode);
 }
+
+void MainWindow::on_action_Open_triggered()
+{
+    QTreeWidgetItem *selectedItem;
+    QHash <QString, QString> newBookingCache;
+    NewQuotationDialogue *quot = new NewQuotationDialogue;
+    qint64 bookingId;
+
+    selectedItem = ui->treeWidgetAllBooking->selectedItems()[0];
+    bookingId = selectedItem->text(0).toLongLong();
+
+    quot->initQuotationDialogue(bookingId);
+    quot->exec();
+    if (quot->result() == QDialog::Accepted)
+    {
+        quot->fillNewBookingCache(newBookingCache);
+        updateBookingToTree(selectedItem, newBookingCache);
+    }
+
+}
+
+void MainWindow::updateBookingToTree(QTreeWidgetItem *selectedItem, QHash <QString, QString> &newBookingCache)
+{
+    selectedItem->setText(0, newBookingCache["bookingid"]);
+    selectedItem->setText(1, newBookingCache["bookingdate"]);
+    selectedItem->setText(2, newBookingCache["bookingtime"]);
+    selectedItem->setText(3, newBookingCache["customername"]);
+    selectedItem->setText(4, newBookingCache["destinations"]);
+    selectedItem->setText(5, newBookingCache["profit"]);
+}

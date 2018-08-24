@@ -17,6 +17,7 @@ public:
     explicit NewQuotationDialogue(QWidget *parent = 0);
     ~NewQuotationDialogue();
     void fillNewBookingCache(QHash <QString, QString> &newBookingCache);
+    void initQuotationDialogue(qint64 bookingId);
 
 private slots:
     void on_buttonBox_accepted();

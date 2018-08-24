@@ -345,3 +345,137 @@ void DbManager::getAllBookingHistory(QList <QHash <QString, QString>>& allBookin
        /* There is some error, DIE here*/
      }
 }
+
+void DbManager::_getExpense(DbExpense& expense, qint64 bookingId)
+{
+    QSqlQuery qry;
+
+    qry.prepare("SELECT * FROM expense WHERE bookingid=:bookingid");
+    qry.bindValue(":bookingid", bookingId);
+
+    if (qry.exec())
+    {
+        qDebug( "fetched expense entry!");
+        if (qry.next())
+        {
+            expense.bookingId = qry.value(0).toLongLong();
+            expense.food = qry.value(1).toInt();
+            expense.accomodation = qry.value(2).toInt();
+            expense.transport = qry.value(3).toInt();
+            expense.guideCharges = qry.value(4).toInt();
+            expense.others = qry.value(5).toInt();
+            expense.totalExpense = qry.value(6).toInt();
+            expense.perHeadAmount = qry.value(7).toInt();
+            expense.totalReturn = qry.value(8).toInt();
+            expense.profit = qry.value(9).toInt();
+        }
+    }
+    else
+    {
+        qDebug() << "Error getting expense entry" << qry.lastError();
+    }
+}
+
+void DbManager::_getUser(DbUser& user, qint64 mobileNo)
+{
+    QSqlQuery qry;
+
+    qry.prepare("SELECT * FROM user WHERE mobileno=:mobilenumber");
+    qry.bindValue(":mobilenumber", mobileNo);
+
+    if (qry.exec())
+    {
+        qDebug( "fetched user entry!");
+        if (qry.next())
+        {
+            user.mobileNumber = qry.value(0).toLongLong();
+            user.firstName = qry.value(1).toString();
+            user.lastName = qry.value(2).toString();
+            user.addressLine1 = qry.value(3).toString();
+            user.addressLine2 = qry.value(4).toString();
+            user.city = qry.value(5).toString();
+            user.district = qry.value(6).toString();
+            user.state = qry.value(7).toString();
+            user.pinCode = qry.value(8).toInt();
+        }
+    }
+    else
+    {
+        qDebug() << "Error getting user entry" << qry.lastError();
+    }
+}
+
+void DbManager::_getBooking(DbBooking& booking, qint64 bookingId)
+{
+
+    QSqlQuery qry;
+
+    qry.prepare("SELECT * FROM booking WHERE bookingid=:bookingid");
+    qry.bindValue(":bookingid", bookingId);
+
+    if (qry.exec())
+    {
+        qDebug( "fetched booking entry!");
+        if (qry.next())
+        {
+            booking.bookingId = qry.value(0).toLongLong();
+            booking.mobileNumber = qry.value(1).toLongLong();
+            booking.adminName = qry.value(2).toString();
+            booking.bookingDate = qry.value(3).toString();
+            booking.bookingTime = qry.value(4).toString();
+        }
+    }
+    else
+    {
+        qDebug() << "Error getting booking entry" << qry.lastError();
+    }
+}
+
+void DbManager::_getTrip(DbTrip& trip, qint64 bookingId)
+{
+    QSqlQuery qry;
+
+    qry.prepare("SELECT * FROM trip WHERE bookingid=:bookingid");
+    qry.bindValue(":bookingid", bookingId);
+
+    if (qry.exec())
+    {
+        qDebug( "fetched trip entry!");
+        if (qry.next())
+        {
+            trip.bookingId = qry.value(0).toLongLong();
+            trip.destination = qry.value(1).toString();
+            trip.departureDate = qry.value(2).toString();
+            trip.departureTime = qry.value(3).toString();
+            trip.arrivalDate = qry.value(4).toString();
+            trip.arrivalTime = qry.value(5).toString();
+            trip.numPassengers = qry.value(6).toInt();
+            trip.numStaffs = qry.value(7).toInt();
+            trip.vehicle = qry.value(8).toString();
+        }
+    }
+    else
+    {
+        qDebug() << "Error getting trip entry" << qry.lastError();
+    }
+}
+
+void DbManager::getExpenseEntry(DbExpense& expense, qint64 bookingId)
+{
+    _getExpense(expense, bookingId);
+}
+
+void DbManager::getUserEntry(DbUser& user, qint64 mobileNo)
+{
+    _getUser(user, mobileNo);
+}
+
+void DbManager::getBookingEntry(DbBooking& booking, qint64 bookingId)
+{
+    _getBooking(booking, bookingId);
+}
+
+void DbManager::getTripEntry(DbTrip& trip, qint64 bookingId)
+{
+    _getTrip(trip, bookingId);
+}

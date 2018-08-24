@@ -170,3 +170,17 @@ void NewQuotationDialogue::fillNewBookingCache(QHash <QString, QString> &newBook
     newBookingCache["destinations"]= trip.destination;
     newBookingCache["profit"]= QString::number(expense.profit);
 }
+
+
+void NewQuotationDialogue::initQuotationDialogue(qint64 bookingId)
+{
+    qint64 mobileNo;
+
+    DbManager::getBookingEntry(booking, bookingId);
+    DbManager::getExpenseEntry(expense, bookingId);
+    mobileNo = booking.mobileNumber;
+    DbManager::getUserEntry(user, mobileNo);
+    DbManager::getTripEntry(trip, bookingId);
+
+    ui->lineEditFirstName->setText(user.firstName);
+}

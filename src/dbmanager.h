@@ -70,6 +70,10 @@ public:
     static void addUserEntry(const DbUser& user);
     static void addBookingEntry(const DbBooking& booking);
     static void addTripEntry(const DbTrip& trip);
+    static void getExpenseEntry(DbExpense& expense, qint64 bookingId);
+    static void getUserEntry(DbUser& user, qint64 mobileNo);
+    static void getBookingEntry(DbBooking& booking, qint64 bookingId);
+    static void getTripEntry(DbTrip& trip, qint64 bookingId);
     static qint64 getMaxBookingID(void);
     static void getAllBookingHistory(QList <QHash <QString, QString>>& allBookings);
 private:
@@ -81,6 +85,10 @@ private:
     static void _addUser(const DbUser& user);
     static void _addBooking(const DbBooking& booking);
     static void _addTrip(const DbTrip& trip);
+    static void _getExpense(DbExpense& expense, qint64 bookingId);
+    static void _getUser(DbUser& user, qint64 mobileNo);
+    static void _getBooking(DbBooking& booking, qint64 bookingId);
+    static void _getTrip(DbTrip& trip, qint64 bookingId);
     QSqlDatabase m_db;
 };
 

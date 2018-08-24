@@ -5,6 +5,7 @@
 #include "dbmanager.h"
 #include <QString>
 #include <QHash>
+#include <QTreeWidgetItem>
 
 namespace Ui {
 class MainWindow;
@@ -21,11 +22,16 @@ public:
 private slots:
     void on_action_New_triggered();
 
+    void on_action_Open_triggered();
+
 private:
     Ui::MainWindow *ui;
     DbManager *db;
     void fillBookingHistoryTree(void);
     void addNewBookingToTree(QHash <QString, QString> &newBookingCache);
+    void updateBookingToTree(QTreeWidgetItem *selectedItem, QHash <QString,
+                             QString> &newBookingCache);
+
 };
 
 #endif // MAINWINDOW_H
