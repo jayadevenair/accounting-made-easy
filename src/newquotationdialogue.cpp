@@ -18,7 +18,7 @@ NewQuotationDialogue::~NewQuotationDialogue()
 
 qint64 NewQuotationDialogue::getNextBookingId(void)
 {
-    return 1234;
+    return DbManager::getMaxBookingID() + 1;
 }
 
 void NewQuotationDialogue::extractFieldsFromDialogueBox(void)
@@ -120,8 +120,8 @@ void NewQuotationDialogue::extractFieldsFromDialogueBox(void)
     booking.adminName = adminName->text();
 
     QDateTime currentdateTime = QDateTime::currentDateTime();
-    booking.currentDate = currentdateTime.date().toString();
-    booking.currentTime = currentdateTime.time().toString();
+    booking.bookingDate = currentdateTime.date().toString();
+    booking.bookingTime = currentdateTime.time().toString();
 }
 
 void NewQuotationDialogue::on_buttonBox_accepted()
@@ -160,4 +160,13 @@ void NewQuotationDialogue::setupUiHuman(void)
 
     QLineEdit *perHeadAmount = ui->lineEditPerHeadAmount;
     perHeadAmount->setValidator(new QIntValidator(this));
+}
+
+void NewQuotationDialogue::fillNewBookingCache(QHash <QString, QString> &newBookingCache) {
+    newBookingCache["bookingid"] = QString::number(booking.bookingId);
+    newBookingCache["bookingdate"]= booking.bookingDate;
+    newBookingCache["bookingtime"]= booking.bookingTime;
+    newBookingCache["customername"] = user.firstName + " " + user.lastName;
+    newBookingCache["destinations"]= trip.destination;
+    newBookingCache["profit"]= QString::number(expense.profit);
 }

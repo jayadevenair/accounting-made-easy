@@ -56,8 +56,8 @@ void DbManager::createBookingTable(void)
                 "(bookingid INTEGER UNIQUE PRIMARY KEY, "
                 "mobilenumber INTIGER, "
                 "admin VARCHAR(30), "
-                "date VARCHAR(30), "
-                "time VARCHAR(30))");
+                "bookingdate VARCHAR(30), "
+                "bookingtime VARCHAR(30))");
     if(!qry.exec())
     {
         qDebug() << qry.lastError();
@@ -178,13 +178,14 @@ void DbManager::_addBooking(const DbBooking& booking)
 {
     QSqlQuery qry;
 
-    qry.prepare("INSERT INTO booking (bookingid, mobilenumber, admin, date, time)"
-                "VALUES (:bookingid, :mobilenumber, :admin, :date, :time)");
+    qry.prepare("INSERT INTO booking (bookingid, mobilenumber, admin, bookingdate, "
+                "bookingtime) VALUES (:bookingid, :mobilenumber, :admin, :bookingdate, "
+                ":bookingtime)");
     qry.bindValue(":bookingid", booking.bookingId);
     qry.bindValue(":mobilenumber", booking.mobileNumber);
     qry.bindValue(":admin", booking.adminName);
-    qry.bindValue(":date", booking.currentDate);
-    qry.bindValue(":time", booking.currentTime);
+    qry.bindValue(":bookingdate", booking.bookingDate);
+    qry.bindValue(":bookingtime", booking.bookingTime);
 
      if( !qry.exec() )
        qDebug() << qry.lastError();
@@ -234,4 +235,113 @@ void DbManager::addBookingEntry(const DbBooking& booking)
 void DbManager::addTripEntry(const DbTrip& trip)
 {
     _addTrip(trip);
+}
+
+qint64 DbManager::getMaxBookingID(void)
+{
+    QSqlQuery qry;
+    qint64 maxBookingId;
+
+    qry.prepare("SELECT ifnull(MAX(bookingid), 0) FROM booking");
+
+     if (qry.exec())
+     {
+        if (qry.next())
+        {
+            maxBookingId = qry.value(0).toLongLong();
+        }
+        return maxBookingId;
+     }
+     else
+     {
+       qDebug() << qry.lastError();
+       /* There is some error, DIE here*/
+     }
+}
+
+void DbManager::getAllBookingHistory(QList <QHash <QString, QString>>& allBookings)
+{
+    QSqlQuery qry;
+    QHash <QString, QString> tempHash;
+
+    qry.prepare("SELECT bookingid, bookingdate, bookingtime, mobilenumber "
+                "FROM booking ORDER BY bookingid DESC");
+
+     if (qry.exec())
+     {
+        while (qry.next())
+        {
+            QSqlQuery nameQry;
+            QSqlQuery destinationQry;
+            QSqlQuery profitQry;
+            qint64 mobileNUmber;
+            qint64 bookingId;
+
+            bookingId = qry.value(0).toLongLong();
+            tempHash["bookingid"] = qry.value(0).toString();
+            tempHash["bookingdate"]= qry.value(1).toString();
+            tempHash["bookingtime"]= qry.value(2).toString();
+            mobileNUmber = qry.value(3).toLongLong();
+
+            /*Query cutomer Name */
+            nameQry.prepare("SELECT firstname, lastname FROM user "
+                            "WHERE mobileno=:mobilenumber");
+            nameQry.bindValue(":mobilenumber", mobileNUmber);
+            if (nameQry.exec())
+            {
+               if (nameQry.next())
+               {
+                   tempHash["customername"] = nameQry.value(0).toString() + " " +
+                                              nameQry.value(1).toString();
+               }
+            }
+            else
+            {
+              qDebug()  << "user table querry failed" << qry.lastError();
+              /* There is some error, DIE here*/
+            }
+
+            /*Query Destinations */
+            destinationQry.prepare("SELECT destination FROM trip "
+                            "WHERE bookingid = :bookingid");
+            destinationQry.bindValue(":bookingid", bookingId);
+            if (destinationQry.exec())
+            {
+               if (destinationQry.next())
+               {
+                   tempHash["destinations"] = destinationQry.value(0).toString();
+               }
+            }
+            else
+            {
+              qDebug() << "trip table querry failed" << qry.lastError();
+              /* There is some error, DIE here*/
+            }
+
+            /*Query profit*/
+            profitQry.prepare("SELECT profit FROM expense "
+                            "WHERE bookingid = :bookingid");
+            profitQry.bindValue(":bookingid", bookingId);
+            if (profitQry.exec())
+            {
+               if (profitQry.next())
+               {
+                   tempHash["profit"] = profitQry.value(0).toString();
+               }
+            }
+            else
+            {
+              qDebug() << "expense table querry failed" << qry.lastError();
+              /* There is some error, DIE here*/
+            }
+
+            /* Add the hash table to the list */
+            allBookings.append(tempHash);
+        }
+     }
+     else
+     {
+       qDebug() << "booking table querry failed" << qry.lastError();
+       /* There is some error, DIE here*/
+     }
 }

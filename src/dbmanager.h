@@ -53,8 +53,8 @@ public:
 class DbBooking
 {
 public:
-    QString currentDate;
-    QString currentTime;
+    QString bookingDate;
+    QString bookingTime;
     QString adminName;
     qint64 bookingId;
     qint64 mobileNumber;
@@ -70,6 +70,8 @@ public:
     static void addUserEntry(const DbUser& user);
     static void addBookingEntry(const DbBooking& booking);
     static void addTripEntry(const DbTrip& trip);
+    static qint64 getMaxBookingID(void);
+    static void getAllBookingHistory(QList <QHash <QString, QString>>& allBookings);
 private:
     void createTripTable(void);
     void createUserTable(void);

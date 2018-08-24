@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "dbmanager.h"
+#include "mainwindow.h"
 
 namespace Ui {
 class NewQuotationDialogue;
@@ -15,6 +16,7 @@ class NewQuotationDialogue : public QDialog
 public:
     explicit NewQuotationDialogue(QWidget *parent = 0);
     ~NewQuotationDialogue();
+    void fillNewBookingCache(QHash <QString, QString> &newBookingCache);
 
 private slots:
     void on_buttonBox_accepted();
