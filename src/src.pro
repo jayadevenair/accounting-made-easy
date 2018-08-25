@@ -27,16 +27,19 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     newquotationdialogue.cpp \
-    dbmanager.cpp
+    dbmanager.cpp \
+    reportdialoguebox.cpp
 
 HEADERS += \
         mainwindow.h \
     newquotationdialogue.h \
-    dbmanager.h
+    dbmanager.h \
+    reportdialoguebox.h
 
 FORMS += \
         mainwindow.ui \
-    newquotationdialogue.ui
+    newquotationdialogue.ui \
+    reportdialoguebox.ui
 
 RESOURCES += \
     resources.qrc

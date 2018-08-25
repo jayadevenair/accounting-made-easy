@@ -26,6 +26,12 @@ private slots:
 
     void on_actionDelete_triggered();
 
+    void on_actionBill_triggered();
+
+    void on_actionGST_Bill_triggered();
+
+    void on_actionReport_triggered();
+
 private:
     Ui::MainWindow *ui;
     DbManager *db;

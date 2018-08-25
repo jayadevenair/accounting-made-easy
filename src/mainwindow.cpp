@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "newquotationdialogue.h"
+#include "reportdialoguebox.h"
 #include <QString>
 #include <QDebug>
 #include <QDialog>
@@ -118,4 +119,21 @@ void MainWindow::on_actionDelete_triggered()
 void MainWindow::deleteBookingFromTree(QTreeWidgetItem *bookingNode)
 {
     delete bookingNode;
+}
+
+void MainWindow::on_actionBill_triggered()
+{
+
+}
+
+void MainWindow::on_actionGST_Bill_triggered()
+{
+
+}
+
+void MainWindow::on_actionReport_triggered()
+{
+    ReportDialogueBox *report = new ReportDialogueBox;
+
+    report->exec();
 }
