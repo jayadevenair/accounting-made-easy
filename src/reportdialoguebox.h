@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::ReportDialogueBox *ui;
+    void setupUiHuman(void);
 };
 
 #endif // REPORTDIALOGUEBOX_H

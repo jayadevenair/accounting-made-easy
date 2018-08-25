@@ -72,11 +72,11 @@ void NewQuotationDialogue::extractFieldsFromDialogueBox(void)
     trip.destination = destinations->text();
 
     QDateTimeEdit *departureDateTime = ui->dateTimeEditDeparture;
-    trip.departureDate = departureDateTime->date().toString();
+    trip.departureDate = departureDateTime->date().toString(Qt::ISODate);
     trip.departureTime = departureDateTime->time().toString();
 
     QDateTimeEdit *arrivalDateTime = ui->dateTimeEditArrival;
-    trip.arrivalDate = arrivalDateTime->date().toString();
+    trip.arrivalDate = arrivalDateTime->date().toString(Qt::ISODate);
     trip.arrivalTime = arrivalDateTime->time().toString();
 
     QLineEdit *vehicle = ui->lineEditVehicle;
@@ -116,8 +116,8 @@ void NewQuotationDialogue::extractFieldsFromDialogueBox(void)
     QLineEdit *perHeadAmount = ui->lineEditPerHeadAmount;
     expense.perHeadAmount = perHeadAmount->text().toInt();
 
-    expense.profit = (expense.perHeadAmount * trip.numPassengers) - (expense.totalExpense);
-
+    QLineEdit *profit = ui->lineEditBalance;
+    expense.profit = profit->text().toInt();
 
     /* Extract booking data */
     booking.bookingId = bookingId;
@@ -129,7 +129,7 @@ void NewQuotationDialogue::extractFieldsFromDialogueBox(void)
     if (!updateInProgress)
     {
         QDateTime currentdateTime = QDateTime::currentDateTime();
-        booking.bookingDate = currentdateTime.date().toString();
+        booking.bookingDate = currentdateTime.date().toString(Qt::ISODate);
         booking.bookingTime = currentdateTime.time().toString();
     }
 }
@@ -170,6 +170,12 @@ void NewQuotationDialogue::setupUiHuman(void)
 
     QLineEdit *perHeadAmount = ui->lineEditPerHeadAmount;
     perHeadAmount->setValidator(new QIntValidator(this));
+
+    QDateTimeEdit *departureDateTime = ui->dateTimeEditDeparture;
+    departureDateTime->setDateTime(QDateTime::currentDateTime());
+
+    QDateTimeEdit *arrivalDateTime = ui->dateTimeEditArrival;
+    arrivalDateTime->setDateTime(QDateTime::currentDateTime());
 }
 
 void NewQuotationDialogue::fillNewBookingCache(QHash <QString, QString> &newBookingCache) {
