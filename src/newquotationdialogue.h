@@ -18,6 +18,7 @@ public:
     ~NewQuotationDialogue();
     void fillNewBookingCache(QHash <QString, QString> &newBookingCache);
     void initQuotationDialogue(qint64 bookingId);
+    bool updateInProgress;
 
 private slots:
     void on_buttonBox_accepted();

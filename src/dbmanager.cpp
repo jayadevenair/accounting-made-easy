@@ -129,7 +129,7 @@ void DbManager::_addExpense(const DbExpense& expense)
 {
     QSqlQuery qry;
 
-    qry.prepare("INSERT INTO expense (bookingid, food, accomodation, transport, guidecharges, "
+    qry.prepare("REPLACE INTO expense (bookingid, food, accomodation, transport, guidecharges, "
                 "others, totalexpense, perheadamount, totalreturn, profit) VALUES (:bookingid, "
                 ":food, :accomodation, :transport, :guidecharges, :others, :totalexpense, "
                 ":perheadamount, :totalreturn, :profit)");
@@ -154,7 +154,7 @@ void DbManager::_addUser(const DbUser& user)
 {
     QSqlQuery qry;
 
-    qry.prepare("INSERT INTO user (mobileno, firstname, lastname, addressline1, addressline2, "
+    qry.prepare("REPLACE INTO user (mobileno, firstname, lastname, addressline1, addressline2, "
                 "city, district, state, pincode) VALUES (:mobileno, :firstname, "
                 ":lastname, :addressline1, :addressline2, :city, :district, :state, "
                 ":pincode)");
@@ -178,7 +178,7 @@ void DbManager::_addBooking(const DbBooking& booking)
 {
     QSqlQuery qry;
 
-    qry.prepare("INSERT INTO booking (bookingid, mobilenumber, admin, bookingdate, "
+    qry.prepare("REPLACE INTO booking (bookingid, mobilenumber, admin, bookingdate, "
                 "bookingtime) VALUES (:bookingid, :mobilenumber, :admin, :bookingdate, "
                 ":bookingtime)");
     qry.bindValue(":bookingid", booking.bookingId);
@@ -197,7 +197,7 @@ void DbManager::_addTrip(const DbTrip& trip)
 {
     QSqlQuery qry;
 
-    qry.prepare("INSERT INTO trip (bookingid, destination, departuredate, departuretime, "
+    qry.prepare("REPLACE INTO trip (bookingid, destination, departuredate, departuretime, "
                 "arrivaldate, arrivaltime, numpassengers, numstaffs, vehicle) "
                 "VALUES (:bookingid, :destination, :departuredate, :departuretime, :arrivaldate, "
                 ":arrivaltime, :numpassengers, :numstaffs, :vehicle)");

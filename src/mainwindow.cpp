@@ -27,6 +27,7 @@ void MainWindow::on_action_New_triggered()
     QHash <QString, QString> newBookingCache;
     NewQuotationDialogue *quot = new NewQuotationDialogue;
 
+    quot->updateInProgress = false;
     quot->exec();
     if (quot->result() == QDialog::Accepted)
     {
@@ -80,6 +81,7 @@ void MainWindow::on_action_Open_triggered()
     selectedItem = ui->treeWidgetAllBooking->selectedItems()[0];
     bookingId = selectedItem->text(0).toLongLong();
 
+    quot->updateInProgress = true;
     quot->initQuotationDialogue(bookingId);
     quot->exec();
     if (quot->result() == QDialog::Accepted)

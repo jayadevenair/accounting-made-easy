@@ -28,7 +28,14 @@ void NewQuotationDialogue::extractFieldsFromDialogueBox(void)
 
     /* Extract Info common for all the tables*/
     mobileNumber = ui->lineEditMobileNo->text().toLong();
-    bookingId = getNextBookingId();
+    if (updateInProgress)
+    {
+        bookingId = booking.bookingId;
+    }
+    else
+    {
+        bookingId = getNextBookingId();
+    }
 
     /* Extract User Information */
     user.mobileNumber = mobileNumber;
@@ -119,9 +126,12 @@ void NewQuotationDialogue::extractFieldsFromDialogueBox(void)
     QLineEdit *adminName = ui->lineEditAdminName;
     booking.adminName = adminName->text();
 
-    QDateTime currentdateTime = QDateTime::currentDateTime();
-    booking.bookingDate = currentdateTime.date().toString();
-    booking.bookingTime = currentdateTime.time().toString();
+    if (!updateInProgress)
+    {
+        QDateTime currentdateTime = QDateTime::currentDateTime();
+        booking.bookingDate = currentdateTime.date().toString();
+        booking.bookingTime = currentdateTime.time().toString();
+    }
 }
 
 void NewQuotationDialogue::on_buttonBox_accepted()
@@ -171,7 +181,6 @@ void NewQuotationDialogue::fillNewBookingCache(QHash <QString, QString> &newBook
     newBookingCache["profit"]= QString::number(expense.profit);
 }
 
-
 void NewQuotationDialogue::initQuotationDialogue(qint64 bookingId)
 {
     qint64 mobileNo;
@@ -182,5 +191,36 @@ void NewQuotationDialogue::initQuotationDialogue(qint64 bookingId)
     DbManager::getUserEntry(user, mobileNo);
     DbManager::getTripEntry(trip, bookingId);
 
+    /* user details */
     ui->lineEditFirstName->setText(user.firstName);
+    ui->lineEditLastName->setText(user.lastName);
+    ui->lineEditAddressLine1->setText(user.addressLine1);
+    ui->lineEditAddressLine2->setText(user.addressLine2);
+    ui->lineEditCity->setText(user.city);
+    ui->lineEditDistrict->setText(user.district);
+    ui->lineEditState->setText(user.state);
+    ui->lineEditPinCode->setText(QString::number(user.pinCode));
+    ui->lineEditMobileNo->setText(QString::number(user.mobileNumber));
+
+    /* trip details */
+    ui->lineEditDestinations->setText(trip.destination);
+    ui->dateTimeEditDeparture->setDate(QDate::fromString(trip.departureDate));
+    ui->dateTimeEditDeparture->setTime(QTime::fromString(trip.departureTime));
+    ui->dateTimeEditArrival->setDate(QDate::fromString(trip.arrivalDate));
+    ui->dateTimeEditArrival->setTime(QTime::fromString(trip.arrivalTime));
+    ui->lineEditVehicle->setText(trip.vehicle);
+    ui->spinBoxNoPassengers->setValue(trip.numPassengers);
+    ui->spinBoxNoStaffs->setValue(trip.numStaffs);
+    ui->lineEditGuideName->setText(trip.guideName);
+
+    /* expense details */
+    ui->lineEditFood->setText(QString::number(expense.food));
+    ui->lineEditAccomodation->setText(QString::number(expense.accomodation));
+    ui->lineEditTransport->setText(QString::number(expense.transport));
+    ui->lineEditGuideCharges->setText(QString::number(expense.guideCharges));
+    ui->lineEditOthers->setText(QString::number(expense.others));
+    ui->lineEditTotalExpenses->setText(QString::number(expense.totalExpense));
+    ui->lineEditPerHeadAmount->setText(QString::number(expense.perHeadAmount));
+    ui->lineEditBalance->setText(QString::number(expense.profit));
+    ui->lineEditAdminName->setText(booking.adminName);
 }
