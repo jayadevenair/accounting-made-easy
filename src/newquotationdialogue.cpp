@@ -224,3 +224,66 @@ void NewQuotationDialogue::initQuotationDialogue(qint64 bookingId)
     ui->lineEditBalance->setText(QString::number(expense.profit));
     ui->lineEditAdminName->setText(booking.adminName);
 }
+
+void NewQuotationDialogue::calculateTotalExpense(void)
+{
+    qint32 totalExpense;
+
+    totalExpense = ui->lineEditFood->text().toInt();
+    totalExpense += ui->lineEditAccomodation->text().toInt();
+    totalExpense += ui->lineEditTransport->text().toInt();
+    totalExpense += ui->lineEditGuideCharges->text().toInt();
+    totalExpense += ui->lineEditOthers->text().toInt();
+
+    ui->lineEditTotalExpenses->setText(QString::number(totalExpense));
+}
+
+void NewQuotationDialogue::calculateProfit(void)
+{
+    qint32 profit;
+
+    profit = ui->lineEditPerHeadAmount->text().toInt();
+    profit *= ui->spinBoxNoPassengers->value();
+    profit -= ui->lineEditTotalExpenses->text().toInt();
+
+    ui->lineEditBalance->setText(QString::number(profit));
+}
+
+void NewQuotationDialogue::on_lineEditFood_textChanged(const QString &arg1) {
+    calculateTotalExpense();
+}
+
+void NewQuotationDialogue::on_lineEditAccomodation_textChanged(const QString &arg1)
+{
+    calculateTotalExpense();
+}
+
+void NewQuotationDialogue::on_lineEditTransport_textChanged(const QString &arg1)
+{
+    calculateTotalExpense();
+}
+
+void NewQuotationDialogue::on_lineEditGuideCharges_textChanged(const QString &arg1)
+{
+    calculateTotalExpense();
+}
+
+void NewQuotationDialogue::on_lineEditOthers_textChanged(const QString &arg1)
+{
+    calculateTotalExpense();
+}
+
+void NewQuotationDialogue::on_lineEditPerHeadAmount_textChanged(const QString &arg1)
+{
+    calculateProfit();
+}
+
+void NewQuotationDialogue::on_lineEditTotalExpenses_textChanged(const QString &arg1)
+{
+    calculateProfit();
+}
+
+void NewQuotationDialogue::on_spinBoxNoPassengers_valueChanged(int arg1)
+{
+    calculateProfit();
+}

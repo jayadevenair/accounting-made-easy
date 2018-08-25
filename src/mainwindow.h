@@ -24,6 +24,8 @@ private slots:
 
     void on_action_Open_triggered();
 
+    void on_actionDelete_triggered();
+
 private:
     Ui::MainWindow *ui;
     DbManager *db;
@@ -31,7 +33,7 @@ private:
     void addNewBookingToTree(QHash <QString, QString> &newBookingCache);
     void updateBookingToTree(QTreeWidgetItem *selectedItem, QHash <QString,
                              QString> &newBookingCache);
-
+    void deleteBookingFromTree(QTreeWidgetItem *bookingNode);
 };
 
 #endif // MAINWINDOW_H

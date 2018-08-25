@@ -479,3 +479,91 @@ void DbManager::getTripEntry(DbTrip& trip, qint64 bookingId)
 {
     _getTrip(trip, bookingId);
 }
+
+void DbManager::_deleteExpense(qint64 bookingId)
+{
+    QSqlQuery qry;
+
+    qry.prepare("DELETE FROM expense WHERE bookingid=:bookingid");
+    qry.bindValue(":bookingid", bookingId);
+
+    if (qry.exec())
+    {
+        qDebug( "deleted expense entry!");
+    }
+    else
+    {
+        qDebug() << "Error deleting expense entry" << qry.lastError();
+    }
+}
+
+void DbManager::_deleteUser(qint64 mobileNo)
+{
+    QSqlQuery qry;
+
+    qry.prepare("DELETE FROM user WHERE mobileno=:mobilenumber");
+    qry.bindValue(":mobilenumber", mobileNo);
+
+    if (qry.exec())
+    {
+        qDebug( "deleted user entry!");
+    }
+    else
+    {
+        qDebug() << "Error deleting user entry" << qry.lastError();
+    }
+}
+
+void DbManager::_deleteBooking(qint64 bookingId)
+{
+    QSqlQuery qry;
+
+    qry.prepare("DELETE FROM booking WHERE bookingid=:bookingid");
+    qry.bindValue(":bookingid", bookingId);
+
+    if (qry.exec())
+    {
+        qDebug( "deleted booking entry!");
+    }
+    else
+    {
+        qDebug() << "Error deleting booking entry" << qry.lastError();
+    }
+}
+
+void DbManager::_deleteTrip(qint64 bookingId)
+{
+    QSqlQuery qry;
+
+    qry.prepare("DELETE FROM trip WHERE bookingid=:bookingid");
+    qry.bindValue(":bookingid", bookingId);
+
+    if (qry.exec())
+    {
+        qDebug( "deleted trip entry!");
+    }
+    else
+    {
+        qDebug() << "Error deleting trip entry" << qry.lastError();
+    }
+}
+
+void DbManager::deleteExpenseEntry(qint64 bookingId)
+{
+    _deleteExpense(bookingId);
+}
+
+void DbManager::deleteUserEntry(qint64 mobileNo)
+{
+    _deleteUser(mobileNo);
+}
+
+void DbManager::deleteBookingEntry(qint64 bookingId)
+{
+    _deleteBooking(bookingId);
+}
+
+void DbManager::deleteTripEntry(qint64 bookingId)
+{
+    _deleteTrip(bookingId);
+}

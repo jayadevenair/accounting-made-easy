@@ -89,7 +89,6 @@ void MainWindow::on_action_Open_triggered()
         quot->fillNewBookingCache(newBookingCache);
         updateBookingToTree(selectedItem, newBookingCache);
     }
-
 }
 
 void MainWindow::updateBookingToTree(QTreeWidgetItem *selectedItem, QHash <QString, QString> &newBookingCache)
@@ -100,4 +99,23 @@ void MainWindow::updateBookingToTree(QTreeWidgetItem *selectedItem, QHash <QStri
     selectedItem->setText(3, newBookingCache["customername"]);
     selectedItem->setText(4, newBookingCache["destinations"]);
     selectedItem->setText(5, newBookingCache["profit"]);
+}
+
+void MainWindow::on_actionDelete_triggered()
+{
+    QTreeWidgetItem *selectedItem;
+    QHash <QString, QString> newBookingCache;
+    qint64 bookingId;
+
+    selectedItem = ui->treeWidgetAllBooking->selectedItems()[0];
+    bookingId = selectedItem->text(0).toLongLong();
+    DbManager::deleteBookingEntry(bookingId);
+    DbManager::deleteTripEntry(bookingId);
+    DbManager::deleteExpenseEntry(bookingId);
+    deleteBookingFromTree(selectedItem);
+}
+
+void MainWindow::deleteBookingFromTree(QTreeWidgetItem *bookingNode)
+{
+    delete bookingNode;
 }

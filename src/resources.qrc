@@ -4,5 +4,6 @@
         <file>files/icon_exit.jpeg</file>
         <file>files/icon_about.jpg</file>
         <file>files/icon_open.png</file>
+        <file>files/icon_delete.png</file>
     </qresource>
 </RCC>

@@ -74,6 +74,10 @@ public:
     static void getUserEntry(DbUser& user, qint64 mobileNo);
     static void getBookingEntry(DbBooking& booking, qint64 bookingId);
     static void getTripEntry(DbTrip& trip, qint64 bookingId);
+    static void deleteExpenseEntry(qint64 bookingId);
+    static void deleteUserEntry(qint64 mobileNo);
+    static void deleteBookingEntry(qint64 bookingId);
+    static void deleteTripEntry(qint64 bookingId);
     static qint64 getMaxBookingID(void);
     static void getAllBookingHistory(QList <QHash <QString, QString>>& allBookings);
 private:
@@ -89,6 +93,10 @@ private:
     static void _getUser(DbUser& user, qint64 mobileNo);
     static void _getBooking(DbBooking& booking, qint64 bookingId);
     static void _getTrip(DbTrip& trip, qint64 bookingId);
+    static void _deleteExpense(qint64 bookingId);
+    static void _deleteBooking(qint64 bookingId);
+    static void _deleteTrip(qint64 bookingId);
+    static void _deleteUser(qint64 mobileNo);
     QSqlDatabase m_db;
 };
 

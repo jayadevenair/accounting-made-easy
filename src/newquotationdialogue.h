@@ -25,11 +25,29 @@ private slots:
 
     void on_buttonBox_rejected();
 
+    void on_lineEditFood_textChanged(const QString &arg1);
+
+    void on_lineEditAccomodation_textChanged(const QString &arg1);
+
+    void on_lineEditTransport_textChanged(const QString &arg1);
+
+    void on_lineEditGuideCharges_textChanged(const QString &arg1);
+
+    void on_lineEditOthers_textChanged(const QString &arg1);
+
+    void on_lineEditPerHeadAmount_textChanged(const QString &arg1);
+
+    void on_lineEditTotalExpenses_textChanged(const QString &arg1);
+
+    void on_spinBoxNoPassengers_valueChanged(int arg1);
+
 private:
     Ui::NewQuotationDialogue *ui;
     void setupUiHuman(void);
     void extractFieldsFromDialogueBox(void);
     qint64 getNextBookingId(void);
+    void calculateProfit(void);
+    void calculateTotalExpense(void);
     DbUser user;
     DbExpense expense;
     DbBooking booking;
