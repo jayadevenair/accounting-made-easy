@@ -567,3 +567,158 @@ void DbManager::deleteTripEntry(qint64 bookingId)
 {
     _deleteTrip(bookingId);
 }
+
+qint32 DbManager::getTotalExpenseCustom(QString startDate, QString startTime,
+                                        QString endDate, QString endTime)
+{
+    QSqlQuery qry;
+    qint32 totalExpense;
+
+    qry.prepare("SELECT SUM(expense.totalexpense) FROM booking NATURAL JOIN expense "
+                "WHERE (booking.bookingdate BETWEEN :startdate AND :enddate) AND "
+                "(booking.bookingtime BETWEEN :starttime AND :endtime)");
+
+    qry.bindValue(":startdate", startDate);
+    qry.bindValue(":starttime", startTime);
+    qry.bindValue(":enddate", endDate);
+    qry.bindValue(":endtime", endTime);
+
+    if (qry.exec())
+    {
+        qDebug( "fetched total expense for custom period!");
+        if (qry.next())
+        {
+            totalExpense = qry.value(0).toInt();
+            return totalExpense;
+        }
+    }
+    else
+    {
+        qDebug() << "Error getting total expense for custom period!" << qry.lastError();
+    }
+}
+
+qint32 DbManager::getTotalExpenseDatePattern(QString pattern)
+{
+    QSqlQuery qry;
+    qint32 totalExpense;
+
+    qry.prepare("SELECT SUM(expense.totalexpense) FROM booking NATURAL JOIN expense "
+                "WHERE booking.bookingdate LIKE :pattern");
+    qry.bindValue(":pattern", pattern);
+
+    if (qry.exec())
+    {
+        qDebug( "fetched total expense for given pattern!");
+        if (qry.next())
+        {
+            totalExpense = qry.value(0).toInt();
+            return totalExpense;
+        }
+    }
+    else
+    {
+        qDebug() << "Error getting total expense for given pattern!" << qry.lastError();
+    }
+}
+
+qint32 DbManager::getTotalExpenseYearly(QString year)
+{
+    QString pattern;
+
+    pattern = year + "-__-__";
+    return DbManager::getTotalExpenseDatePattern(pattern);
+}
+
+qint32 DbManager::getTotalExpenseMonthly(QString month)
+{
+    QString pattern;
+
+    pattern = "____-" + month + "-__";
+    return DbManager::getTotalExpenseDatePattern(pattern);
+}
+
+qint32 DbManager::getTotalExpenseDaily(QString day)
+{
+    QString pattern;
+
+    pattern = day;
+    return DbManager::getTotalExpenseDatePattern(pattern);
+}
+
+qint32 DbManager::getTotalReturnCustom(QString startDate, QString startTime,
+                                       QString endDate, QString endTime)
+{
+    QSqlQuery qry;
+    qint32 totalProfit;
+
+    qry.prepare("SELECT SUM(expense.totalreturn) FROM booking NATURAL JOIN expense "
+                "WHERE (booking.bookingdate BETWEEN :startdate AND :enddate) AND "
+                "(booking.bookingtime BETWEEN :starttime AND :endtime)");
+    qry.bindValue(":startdate", startDate);
+    qry.bindValue(":starttime", startTime);
+    qry.bindValue(":enddate", endDate);
+    qry.bindValue(":endtime", endTime);
+
+    if (qry.exec())
+    {
+        qDebug( "fetched total return for custom period!");
+        if (qry.next())
+        {
+            totalProfit = qry.value(0).toInt();
+            return totalProfit;
+        }
+    }
+    else
+    {
+        qDebug() << "Error getting total return for custom period!" << qry.lastError();
+    }
+}
+
+qint32 DbManager::getTotalReturnDatePattern(QString pattern)
+{
+    QSqlQuery qry;
+    qint32 totalProfit;
+
+    qry.prepare("SELECT SUM(expense.totalreturn) FROM booking NATURAL JOIN expense "
+                "WHERE booking.bookingdate LIKE :pattern");
+    qry.bindValue(":pattern", pattern);
+
+    if (qry.exec())
+    {
+        qDebug( "fetched total return for given pattern!");
+        if (qry.next())
+        {
+            totalProfit = qry.value(0).toInt();
+            return totalProfit;
+        }
+    }
+    else
+    {
+        qDebug() << "Error getting total return for given pattern!" << qry.lastError();
+    }
+}
+
+qint32 DbManager::getTotalReturnYearly(QString year)
+{
+    QString pattern;
+
+    pattern = year + "-__-__";
+    return DbManager::getTotalReturnDatePattern(pattern);
+}
+
+qint32 DbManager::getTotalReturnMonthly(QString month)
+{
+    QString pattern;
+
+    pattern = "____-" + month + "-__";
+    return DbManager::getTotalReturnDatePattern(pattern);
+}
+
+qint32 DbManager::getTotalReturnDaily(QString day)
+{
+    QString pattern;
+
+    pattern = day;
+    return DbManager::getTotalReturnDatePattern(pattern);
+}

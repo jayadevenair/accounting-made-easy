@@ -80,6 +80,16 @@ public:
     static void deleteTripEntry(qint64 bookingId);
     static qint64 getMaxBookingID(void);
     static void getAllBookingHistory(QList <QHash <QString, QString>>& allBookings);
+    static qint32 getTotalExpenseCustom(QString startDate, QString startTime,
+                                        QString endDate, QString endTime);
+    static qint32 getTotalReturnCustom(QString startDate, QString startTime,
+                                       QString endDate, QString endTime);
+    static qint32 getTotalExpenseYearly(QString year);
+    static qint32 getTotalReturnYearly(QString year);
+    static qint32 getTotalExpenseMonthly(QString month);
+    static qint32 getTotalReturnMonthly(QString month);
+    static qint32 getTotalExpenseDaily(QString day);
+    static qint32 getTotalReturnDaily(QString day);
 private:
     void createTripTable(void);
     void createUserTable(void);
@@ -97,6 +107,8 @@ private:
     static void _deleteBooking(qint64 bookingId);
     static void _deleteTrip(qint64 bookingId);
     static void _deleteUser(qint64 mobileNo);
+    static qint32 getTotalExpenseDatePattern(QString pattern);
+    static qint32 getTotalReturnDatePattern(QString pattern);
     QSqlDatabase m_db;
 };
 

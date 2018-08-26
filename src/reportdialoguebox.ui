@@ -25,6 +25,9 @@
      </item>
      <item>
       <widget class="QDateEdit" name="dateEditYearly">
+       <property name="inputMethodHints">
+        <set>Qt::ImhPreferNumbers</set>
+       </property>
        <property name="displayFormat">
         <string>yyyy</string>
        </property>

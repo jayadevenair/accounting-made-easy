@@ -116,6 +116,8 @@ void NewQuotationDialogue::extractFieldsFromDialogueBox(void)
     QLineEdit *perHeadAmount = ui->lineEditPerHeadAmount;
     expense.perHeadAmount = perHeadAmount->text().toInt();
 
+    expense.totalReturn = expense.perHeadAmount * trip.numPassengers;
+
     QLineEdit *profit = ui->lineEditBalance;
     expense.profit = profit->text().toInt();
 

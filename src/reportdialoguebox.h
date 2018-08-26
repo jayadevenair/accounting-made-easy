@@ -15,6 +15,11 @@ public:
     explicit ReportDialogueBox(QWidget *parent = 0);
     ~ReportDialogueBox();
 
+private slots:
+    void on_buttonBox_accepted();
+
+    void on_buttonBox_rejected();
+
 private:
     Ui::ReportDialogueBox *ui;
     void setupUiHuman(void);
