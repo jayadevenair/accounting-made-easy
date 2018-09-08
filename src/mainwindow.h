@@ -36,10 +36,7 @@ private:
     Ui::MainWindow *ui;
     DbManager *db;
     void fillBookingHistoryTree(void);
-    void addNewBookingToTree(QHash <QString, QString> &newBookingCache);
-    void updateBookingToTree(QTreeWidgetItem *selectedItem, QHash <QString,
-                             QString> &newBookingCache);
-    void deleteBookingFromTree(QTreeWidgetItem *bookingNode);
+    void deleteAllBookingFromTree(void);
 };
 
 #endif // MAINWINDOW_H

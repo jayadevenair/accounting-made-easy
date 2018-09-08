@@ -23,6 +23,7 @@ private slots:
 private:
     Ui::ReportDialogueBox *ui;
     void setupUiHuman(void);
+    void createReportPdf(void);
 };
 
 #endif // REPORTDIALOGUEBOX_H

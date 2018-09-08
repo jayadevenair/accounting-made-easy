@@ -5,8 +5,11 @@
 #include <QString>
 #include <QDebug>
 #include <QDialog>
+#include <QFile>
+#include <QPrinter>
+#include <QWebView>
 
-static const QString dbPath = "/home/jayadev/mydata.db";
+static const QString dbPath = "/home/ejayadev/mydata.db";
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -32,8 +35,8 @@ void MainWindow::on_action_New_triggered()
     quot->exec();
     if (quot->result() == QDialog::Accepted)
     {
-        quot->fillNewBookingCache(newBookingCache);
-        addNewBookingToTree(newBookingCache);
+        deleteAllBookingFromTree();
+        fillBookingHistoryTree();
     }
 }
 
@@ -59,19 +62,6 @@ void MainWindow::fillBookingHistoryTree(void)
     }
 }
 
-void MainWindow::addNewBookingToTree(QHash <QString, QString> &newBookingCache)
-{
-    QTreeWidgetItem *newBookingNode = new QTreeWidgetItem;
-    newBookingNode->setText(0, newBookingCache["bookingid"]);
-    newBookingNode->setText(1, newBookingCache["bookingdate"]);
-    newBookingNode->setText(2, newBookingCache["bookingtime"]);
-    newBookingNode->setText(3, newBookingCache["customername"]);
-    newBookingNode->setText(4, newBookingCache["destinations"]);
-    newBookingNode->setText(5, newBookingCache["profit"]);
-
-    ui->treeWidgetAllBooking->insertTopLevelItem(0, newBookingNode);
-}
-
 void MainWindow::on_action_Open_triggered()
 {
     QTreeWidgetItem *selectedItem;
@@ -87,19 +77,9 @@ void MainWindow::on_action_Open_triggered()
     quot->exec();
     if (quot->result() == QDialog::Accepted)
     {
-        quot->fillNewBookingCache(newBookingCache);
-        updateBookingToTree(selectedItem, newBookingCache);
+        deleteAllBookingFromTree();
+        fillBookingHistoryTree();
     }
-}
-
-void MainWindow::updateBookingToTree(QTreeWidgetItem *selectedItem, QHash <QString, QString> &newBookingCache)
-{
-    selectedItem->setText(0, newBookingCache["bookingid"]);
-    selectedItem->setText(1, newBookingCache["bookingdate"]);
-    selectedItem->setText(2, newBookingCache["bookingtime"]);
-    selectedItem->setText(3, newBookingCache["customername"]);
-    selectedItem->setText(4, newBookingCache["destinations"]);
-    selectedItem->setText(5, newBookingCache["profit"]);
 }
 
 void MainWindow::on_actionDelete_triggered()
@@ -113,17 +93,37 @@ void MainWindow::on_actionDelete_triggered()
     DbManager::deleteBookingEntry(bookingId);
     DbManager::deleteTripEntry(bookingId);
     DbManager::deleteExpenseEntry(bookingId);
-    deleteBookingFromTree(selectedItem);
+    deleteAllBookingFromTree();
+    fillBookingHistoryTree();
 }
 
-void MainWindow::deleteBookingFromTree(QTreeWidgetItem *bookingNode)
+void MainWindow::deleteAllBookingFromTree()
 {
-    delete bookingNode;
+    ui->treeWidgetAllBooking->clear();
 }
 
 void MainWindow::on_actionBill_triggered()
 {
+    QFile file("/home/ejayadev/work/fir/html-invoice-template/index.html");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+    QTextStream in(&file);
+    QString text;
+    text = in.readAll();
+    file.close();
 
+    // Initialize printer and set save location
+    QPrinter printer(QPrinter::HighResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOutputFileName("/home/ejayadev/simple_bill.pdf");
+
+    // Create webview and load html source
+    QWebView webview;
+    webview.setHtml(text);
+
+    // Create PDF
+    webview.print(&printer);
 }
 
 void MainWindow::on_actionGST_Bill_triggered()
