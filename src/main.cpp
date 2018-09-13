@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include "login.h"
+#include <QtNetworkAuth>
 
 int main(int argc, char *argv[])
 {

@@ -7,7 +7,7 @@
 #include <QDialog>
 #include <QFile>
 #include <QPrinter>
-#include <QWebView>
+#include <QWebEngineView>
 
 static const QString dbPath = "/home/ejayadev/mydata.db";
 
@@ -17,6 +17,16 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     db = new DbManager(dbPath);
+    msimpleBillPage = new QWebEnginePage;
+    mgstBillPage = new QWebEnginePage;
+    connect(msimpleBillPage, &QWebEnginePage::loadFinished,
+            this, &MainWindow::loadFinishedSimpleBill);
+    connect(msimpleBillPage, &QWebEnginePage::pdfPrintingFinished,
+            this, &MainWindow::pdfPrintingFinishedSimpleBill);
+    connect(mgstBillPage, &QWebEnginePage::loadFinished,
+            this, &MainWindow::loadFinishedGstBill);
+    connect(mgstBillPage, &QWebEnginePage::pdfPrintingFinished,
+            this, &MainWindow::pdfPrintingFinishedGstBill);
     fillBookingHistoryTree();
 }
 
@@ -24,6 +34,8 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete db;
+    delete msimpleBillPage;
+    delete mgstBillPage;
 }
 
 void MainWindow::on_action_New_triggered()
@@ -102,6 +114,48 @@ void MainWindow::deleteAllBookingFromTree()
     ui->treeWidgetAllBooking->clear();
 }
 
+void MainWindow::loadFinishedSimpleBill(bool ok)
+{
+    if (!ok) {
+        QTextStream(stderr)
+            << tr("failed to load simple bill html") << "\n";
+        return;
+    }
+    msimpleBillPage->printToPdf((QString)"/home/ejayadev/normal_bill.pdf");
+}
+
+void MainWindow::pdfPrintingFinishedSimpleBill(const QString &filePath, bool success)
+{
+    if (!success) {
+        QTextStream(stderr)
+            << tr("failed to print to output file '%1'").arg(filePath) << "\n";
+    } else {
+        QTextStream(stderr)
+            << tr("successfully generated normal bill at '%1'").arg(filePath) << "\n";
+    }
+}
+
+void MainWindow::loadFinishedGstBill(bool ok)
+{
+    if (!ok) {
+        QTextStream(stderr)
+            << tr("failed to load gst bill html") << "\n";
+        return;
+    }
+    mgstBillPage->printToPdf((QString)"/home/ejayadev/gst_bill.pdf");
+}
+
+void MainWindow::pdfPrintingFinishedGstBill(const QString &filePath, bool success)
+{
+    if (!success) {
+        QTextStream(stderr)
+            << tr("failed to generate gst bill at '%1'").arg(filePath) << "\n";
+    } else {
+        QTextStream(stderr)
+            << tr("successfully generated gst bill at '%1'").arg(filePath) << "\n";
+    }
+}
+
 void MainWindow::on_actionBill_triggered()
 {
     QFile file("/home/ejayadev/work/fir/html-invoice-template/index.html");
@@ -112,22 +166,20 @@ void MainWindow::on_actionBill_triggered()
     text = in.readAll();
     file.close();
 
-    // Initialize printer and set save location
-    QPrinter printer(QPrinter::HighResolution);
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setPaperSize(QPrinter::A4);
-    printer.setOutputFileName("/home/ejayadev/simple_bill.pdf");
-
-    // Create webview and load html source
-    QWebView webview;
-    webview.setHtml(text);
-
-    // Create PDF
-    webview.print(&printer);
+    msimpleBillPage->setHtml(text);
 }
 
 void MainWindow::on_actionGST_Bill_triggered()
 {
+    QFile file("/home/ejayadev/work/fir/html-invoice-template/index.html");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+    QTextStream in(&file);
+    QString text;
+    text = in.readAll();
+    file.close();
+
+    mgstBillPage->setHtml(text);
 
 }
 

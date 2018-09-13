@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QPrinter>
 #include <QFile>
-#include <QWebView>
+#include <QWebEnginePage>
 
 ReportDialogueBox::ReportDialogueBox(QWidget *parent) :
     QDialog(parent),
@@ -12,11 +12,17 @@ ReportDialogueBox::ReportDialogueBox(QWidget *parent) :
 {
     ui->setupUi(this);
     setupUiHuman();
+    mreportPage = new QWebEnginePage;
+    connect(mreportPage, &QWebEnginePage::loadFinished,
+            this, &ReportDialogueBox::loadFinishedReport);
+    connect(mreportPage, &QWebEnginePage::pdfPrintingFinished,
+            this, &ReportDialogueBox::pdfPrintingFinishedReport);
 }
 
 ReportDialogueBox::~ReportDialogueBox()
 {
     delete ui;
+    delete mreportPage;
 }
 
 void ReportDialogueBox::setupUiHuman(void)
@@ -88,6 +94,27 @@ void ReportDialogueBox::on_buttonBox_accepted()
     createReportPdf();
 }
 
+void ReportDialogueBox::loadFinishedReport(bool ok)
+{
+    if (!ok) {
+        QTextStream(stderr)
+            << tr("failed to load reporthtml") << "\n";
+        return;
+    }
+    mreportPage->printToPdf((QString)"/home/ejayadev/report.pdf");
+}
+
+void ReportDialogueBox::pdfPrintingFinishedReport(const QString &filePath, bool success)
+{
+    if (!success) {
+        QTextStream(stderr)
+            << tr("failed to generate report at '%1'").arg(filePath) << "\n";
+    } else {
+        QTextStream(stderr)
+            << tr("successfully generated report at '%1'").arg(filePath) << "\n";
+    }
+}
+
 void ReportDialogueBox::createReportPdf(void) {
     QFile file("/home/ejayadev/work/fir/html-invoice-template/index.html");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -97,18 +124,7 @@ void ReportDialogueBox::createReportPdf(void) {
     text = in.readAll();
     file.close();
 
-    // Initialize printer and set save location
-    QPrinter printer(QPrinter::HighResolution);
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setPaperSize(QPrinter::A4);
-    printer.setOutputFileName("/home/ejayadev/report.pdf");
-
-    // Create webview and load html source
-    QWebView webview;
-    webview.setHtml(text);
-
-    // Create PDF
-    webview.print(&printer);
+    mreportPage->setHtml(text);
 }
 
 void ReportDialogueBox::on_buttonBox_rejected()

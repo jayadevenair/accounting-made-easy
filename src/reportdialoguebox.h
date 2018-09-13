@@ -2,6 +2,7 @@
 #define REPORTDIALOGUEBOX_H
 
 #include <QDialog>
+#include <QWebEnginePage>
 
 namespace Ui {
 class ReportDialogueBox;
@@ -20,10 +21,15 @@ private slots:
 
     void on_buttonBox_rejected();
 
+    void pdfPrintingFinishedReport(const QString &filePath, bool success);
+
+    void loadFinishedReport(bool ok);
+
 private:
     Ui::ReportDialogueBox *ui;
     void setupUiHuman(void);
     void createReportPdf(void);
+    QWebEnginePage *mreportPage;
 };
 
 #endif // REPORTDIALOGUEBOX_H

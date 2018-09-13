@@ -4,8 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql printsupport webkitwidgets
-
+QT       += core gui sql webenginewidgets network networkauth
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = src
