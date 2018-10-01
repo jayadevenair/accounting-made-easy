@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "advancebooking.h"
 #include "newquotationdialogue.h"
 #include "reportdialoguebox.h"
 #include <QString>
@@ -27,7 +28,10 @@ MainWindow::MainWindow(QWidget *parent) :
             this, &MainWindow::loadFinishedGstBill);
     connect(mgstBillPage, &QWebEnginePage::pdfPrintingFinished,
             this, &MainWindow::pdfPrintingFinishedGstBill);
-    fillBookingHistoryTree();
+    fillAccountsTree();
+    fillAdvanceBookingTree();
+    ui->tabWidgetTopLevel->setCurrentIndex(ADVANCE_BOOKING_TAB);
+    ui->tabWidgetAdvanceBooking->setCurrentIndex(ONGOING_TRIPS);
 }
 
 MainWindow::~MainWindow()
@@ -41,19 +45,31 @@ MainWindow::~MainWindow()
 void MainWindow::on_action_New_triggered()
 {
     QHash <QString, QString> newBookingCache;
-    NewQuotationDialogue *quot = new NewQuotationDialogue;
 
-    quot->updateInProgress = false;
-    quot->exec();
-    if (quot->result() == QDialog::Accepted)
-    {
-        deleteAllBookingFromTree();
-        fillBookingHistoryTree();
+    if (ui->tabWidgetTopLevel->currentIndex() == ADVANCE_BOOKING_TAB) {
+        AdvanceBooking *adv = new AdvanceBooking;
+
+        adv->updateInProgress = false;
+        adv->exec();
+        if (adv->result() == QDialog::Accepted)
+        {
+            deleteAllAdvanceBookingFromTree();
+            fillAdvanceBookingTree();
+        }
+    } else if(ui->tabWidgetTopLevel->currentIndex() == ACCOUNTS_TAB) {
+        NewQuotationDialogue *quot = new NewQuotationDialogue;
+
+        quot->updateInProgress = false;
+        quot->exec();
+        if (quot->result() == QDialog::Accepted)
+        {
+            deleteAllBookingFromTree();
+            fillAccountsTree();
+        }
     }
 }
 
-
-void MainWindow::fillBookingHistoryTree(void)
+void MainWindow::fillAccountsTree(void)
 {
     QList < QHash <QString, QString> > allBookings;
     QHash <QString, QString> booking;
@@ -67,11 +83,42 @@ void MainWindow::fillBookingHistoryTree(void)
         bookingNode->setText(1, booking["bookingdate"]);
         bookingNode->setText(2, booking["bookingtime"]);
         bookingNode->setText(3, booking["customername"]);
-        bookingNode->setText(4, booking["destinations"]);
-        bookingNode->setText(5, booking["profit"]);
+        bookingNode->setText(4, booking["mobileno"]);
+        bookingNode->setText(5, booking["destinations"]);
+        bookingNode->setText(6, booking["profit"]);
 
-        ui->treeWidgetAllBooking->addTopLevelItem(bookingNode);
+        ui->treeWidgetAccounts->addTopLevelItem(bookingNode);
     }
+    ui->treeWidgetAccounts->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+}
+
+void MainWindow::fillAdvanceBookingTree(void)
+{
+    QList < QHash <QString, QString> > allAdvanceBookings;
+    QHash <QString, QString> booking;
+
+    DbManager::getAllAdvanceBookingHistory(allAdvanceBookings);
+
+    foreach(booking, allAdvanceBookings)
+    {
+        QTreeWidgetItem *advanceBookingNode = new QTreeWidgetItem;
+        advanceBookingNode->setText(0, booking["bookingid"]);
+        advanceBookingNode->setText(1, booking["bookingdatetime"]);
+        advanceBookingNode->setText(2, booking["customername"]);
+        advanceBookingNode->setText(3, booking["mobilenumber"]);
+        advanceBookingNode->setText(4, booking["destinations"]);
+        advanceBookingNode->setText(5, booking["departuredatetime"]);
+        advanceBookingNode->setText(6, booking["arrivaldatetime"]);
+        advanceBookingNode->setText(7, booking["advance"]);
+        advanceBookingNode->setText(8, booking["numpassengers"]);
+        advanceBookingNode->setText(9, booking["perheadamount"]);
+        advanceBookingNode->setText(10, booking["totalamount"]);
+
+        ui->treeWidgetUpcomingTrips->addTopLevelItem(advanceBookingNode);
+    }
+    ui->treeWidgetUpcomingTrips->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->treeWidgetOngoingTrips->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->treeWidgetPastTrips->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
 void MainWindow::on_action_Open_triggered()
@@ -81,7 +128,7 @@ void MainWindow::on_action_Open_triggered()
     NewQuotationDialogue *quot = new NewQuotationDialogue;
     qint64 bookingId;
 
-    selectedItem = ui->treeWidgetAllBooking->selectedItems()[0];
+    selectedItem = ui->treeWidgetAccounts->selectedItems()[0];
     bookingId = selectedItem->text(0).toLongLong();
 
     quot->updateInProgress = true;
@@ -90,7 +137,7 @@ void MainWindow::on_action_Open_triggered()
     if (quot->result() == QDialog::Accepted)
     {
         deleteAllBookingFromTree();
-        fillBookingHistoryTree();
+        fillAccountsTree();
     }
 }
 
@@ -100,18 +147,24 @@ void MainWindow::on_actionDelete_triggered()
     QHash <QString, QString> newBookingCache;
     qint64 bookingId;
 
-    selectedItem = ui->treeWidgetAllBooking->selectedItems()[0];
+    selectedItem = ui->treeWidgetAccounts->selectedItems()[0];
     bookingId = selectedItem->text(0).toLongLong();
     DbManager::deleteBookingEntry(bookingId);
     DbManager::deleteTripEntry(bookingId);
     DbManager::deleteExpenseEntry(bookingId);
     deleteAllBookingFromTree();
-    fillBookingHistoryTree();
+    fillAccountsTree();
 }
 
 void MainWindow::deleteAllBookingFromTree()
 {
-    ui->treeWidgetAllBooking->clear();
+    ui->treeWidgetAccounts->clear();
+}
+
+void MainWindow::deleteAllAdvanceBookingFromTree()
+{
+    ui->treeWidgetUpcomingTrips->clear();
+    ui->treeWidgetPastTrips->clear();
 }
 
 void MainWindow::loadFinishedSimpleBill(bool ok)

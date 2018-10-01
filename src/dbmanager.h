@@ -60,6 +60,26 @@ public:
     qint64 mobileNumber;
 };
 
+class DbAdvance
+{
+public:
+    qint64 advanceBookingId;
+    qint64 mobileNumber;
+    QString adminName;
+    QString advanceBookingDate;
+    QString advanceBookingTime;
+    qint64 advance;
+    qint32 perHeadAmount;
+    qint16 numPassengers;
+    qint64 totalAmount;
+    QString destination;
+    QString departureTime;
+    QString departureDate;
+    QString arrivalTime;
+    QString arrivalDate;
+    QString vehicle;
+};
+
 class DbManager
 {
 public:
@@ -70,16 +90,21 @@ public:
     static void addUserEntry(const DbUser& user);
     static void addBookingEntry(const DbBooking& booking);
     static void addTripEntry(const DbTrip& trip);
+    static void addAdvanceEntry(const DbAdvance& advance);
     static void getExpenseEntry(DbExpense& expense, qint64 bookingId);
     static void getUserEntry(DbUser& user, qint64 mobileNo);
     static void getBookingEntry(DbBooking& booking, qint64 bookingId);
     static void getTripEntry(DbTrip& trip, qint64 bookingId);
+    static void getAdvanceEntry(DbAdvance& advance, qint64 advanceBookingId);
     static void deleteExpenseEntry(qint64 bookingId);
     static void deleteUserEntry(qint64 mobileNo);
     static void deleteBookingEntry(qint64 bookingId);
     static void deleteTripEntry(qint64 bookingId);
+    static void deleteAdvanceEntry(qint64 bookingId);
     static qint64 getMaxBookingID(void);
+    static qint64 getMaxAdvanceBookingID(void);
     static void getAllBookingHistory(QList <QHash <QString, QString>>& allBookings);
+    static void getAllAdvanceBookingHistory(QList <QHash <QString, QString>>& allAdvanceBookings);
     static qint32 getTotalExpenseCustom(QString startDate, QString startTime,
                                         QString endDate, QString endTime);
     static qint32 getTotalReturnCustom(QString startDate, QString startTime,
@@ -95,18 +120,22 @@ private:
     void createUserTable(void);
     void createBookingTable(void);
     void createExpenseTable(void);
+    void createAdvanceTable(void);
     static void _addExpense(const DbExpense& expense);
     static void _addUser(const DbUser& user);
     static void _addBooking(const DbBooking& booking);
     static void _addTrip(const DbTrip& trip);
+    static void _addAdvance(const DbAdvance& advance);
     static void _getExpense(DbExpense& expense, qint64 bookingId);
     static void _getUser(DbUser& user, qint64 mobileNo);
     static void _getBooking(DbBooking& booking, qint64 bookingId);
     static void _getTrip(DbTrip& trip, qint64 bookingId);
+    static void _getAdvance(DbAdvance& advance, qint64 advanceBookingId);
     static void _deleteExpense(qint64 bookingId);
     static void _deleteBooking(qint64 bookingId);
     static void _deleteTrip(qint64 bookingId);
     static void _deleteUser(qint64 mobileNo);
+    static void _deleteAdvance(qint64 advanceBookingId);
     static qint32 getTotalExpenseDatePattern(QString pattern);
     static qint32 getTotalReturnDatePattern(QString pattern);
     QSqlDatabase m_db;

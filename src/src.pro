@@ -28,20 +28,26 @@ SOURCES += \
     newquotationdialogue.cpp \
     dbmanager.cpp \
     reportdialoguebox.cpp \
-    login.cpp
+    login.cpp \
+    googledrive.cpp \
+    advancebooking.cpp
 
 HEADERS += \
         mainwindow.h \
     newquotationdialogue.h \
     dbmanager.h \
     reportdialoguebox.h \
-    login.h
+    login.h \
+    googledrive.h \
+    advancebooking.h
+
 
 FORMS += \
         mainwindow.ui \
     newquotationdialogue.ui \
     reportdialoguebox.ui \
-    login.ui
+    login.ui \
+    advancebooking.ui
 
 RESOURCES += \
     resources.qrc

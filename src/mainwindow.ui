@@ -26,39 +26,298 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QTreeWidget" name="treeWidgetAllBooking">
-      <column>
-       <property name="text">
-        <string>B. ID.                     </string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>B. Date                 </string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>B. Time                </string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Customer Name</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Destinations      </string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Profit                    </string>
-       </property>
-      </column>
+     <widget class="QTabWidget" name="tabWidgetTopLevel">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tabAdvanceBookings">
+       <attribute name="title">
+        <string>Advance Bookings</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QTabWidget" name="tabWidgetAdvanceBooking">
+          <property name="currentIndex">
+           <number>2</number>
+          </property>
+          <widget class="QWidget" name="tabUpcomingTrips">
+           <attribute name="title">
+            <string>Upcoming Trips</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QTreeWidget" name="treeWidgetUpcomingTrips">
+              <attribute name="headerDefaultSectionSize">
+               <number>150</number>
+              </attribute>
+              <column>
+               <property name="text">
+                <string>B. ID.                     </string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>B. Date and Time               </string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Customer Name</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Mobile No.</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Destinations      </string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Departure Date and Time</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Arrival Date and Time</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Adavnce</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Per Head Amount</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>No. Passengers</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Total Amount</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabOngoingTrips">
+           <attribute name="title">
+            <string>Ongoing Trips</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="QTreeWidget" name="treeWidgetOngoingTrips">
+              <attribute name="headerDefaultSectionSize">
+               <number>150</number>
+              </attribute>
+              <column>
+               <property name="text">
+                <string>B. ID.                     </string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>B. Date and Time               </string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Customer Name</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Mobile No.</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Destinations      </string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Departure Date and Time</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Arrival Date and Time</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Adavnce</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Per Head Amount</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>No. Passengers</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Total Amount</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabPastTrips">
+           <attribute name="title">
+            <string>Past Trips</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QTreeWidget" name="treeWidgetPastTrips">
+              <attribute name="headerDefaultSectionSize">
+               <number>150</number>
+              </attribute>
+              <column>
+               <property name="text">
+                <string>B. ID.                     </string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>B. Date and Time               </string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Customer Name</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Mobile No.</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Destinations      </string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Departure Date and Time</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Arrival Date and Time</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Adavnce</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Per Head Amount</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>No. Passengers</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Total Amount</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabAccounts">
+       <attribute name="title">
+        <string>Accounts</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QTreeWidget" name="treeWidgetAccounts">
+          <attribute name="headerDefaultSectionSize">
+           <number>250</number>
+          </attribute>
+          <attribute name="headerShowSortIndicator" stdset="0">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="headerStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>B. ID.                     </string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>B. Date                 </string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>B. Time                </string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Customer Name</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Mobile No.</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Destinations      </string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Total Income</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Total Expense</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Profit                    </string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>

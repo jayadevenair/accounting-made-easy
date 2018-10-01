@@ -44,10 +44,23 @@ private slots:
 private:
     Ui::MainWindow *ui;
     DbManager *db;
-    void fillBookingHistoryTree(void);
+    void fillAccountsTree(void);
+    void fillAdvanceBookingTree(void);
     void deleteAllBookingFromTree(void);
+    void deleteAllAdvanceBookingFromTree(void);
     QWebEnginePage *msimpleBillPage;
     QWebEnginePage *mgstBillPage;
+};
+
+enum tabIndexTopLevel {
+    ADVANCE_BOOKING_TAB = 0,
+    ACCOUNTS_TAB = 1,
+};
+
+enum tabIndexAdvanceBooking {
+    UPCOMING_TRIPS = 0,
+    ONGOING_TRIPS = 1,
+    PAST_TRIPS = 2,
 };
 
 #endif // MAINWINDOW_H

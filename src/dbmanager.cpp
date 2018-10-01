@@ -117,12 +117,43 @@ void DbManager::createExpenseTable(void)
     }
 }
 
+void DbManager::createAdvanceTable(void)
+{
+    QSqlQuery qry;
+
+    qry.prepare("CREATE TABLE IF NOT EXISTS advance"
+                "(advancebookingid INTEGER UNIQUE PRIMARY KEY, "
+                "mobilenumber INTIGER, "
+                "admin VARCHAR(30), "
+                "advancebookingdate VARCHAR(30), "
+                "advancebookingtime VARCHAR(30), "
+                "advance INITGER, "
+                "destination VARCHAR(30), "
+                "departuredate VARCHAR(30), "
+                "departuretime VARCHAR(30), "
+                "arrivaldate VARCHAR(30), "
+                "arrivaltime VARCHAR(30), "
+                "numpassengers INITIGER, "
+                "perheadamount INITIGER, "
+                "totalamount INITIGER, "
+                "vehicle VARCHAR(30))");
+    if(!qry.exec())
+    {
+        qDebug() << qry.lastError();
+    }
+    else
+    {
+        qDebug() << "advance Table created!";
+    }
+}
+
 void DbManager::createTables(void)
 {
     createUserTable();
     createBookingTable();
     createTripTable();
     createExpenseTable();
+    createAdvanceTable();
 }
 
 void DbManager::_addExpense(const DbExpense& expense)
@@ -217,6 +248,41 @@ void DbManager::_addTrip(const DbTrip& trip)
        qDebug( "Inserted trip entry!" );
 }
 
+void DbManager::_addAdvance(const DbAdvance& advance)
+{
+    QSqlQuery qry;
+
+    qry.prepare("REPLACE INTO advance (advancebookingid, mobilenumber, admin, "
+                "advancebookingdate, advancebookingtime, advance, destination, "
+                "departuredate, departuretime, arrivaldate, arrivaltime, numpassengers, "
+                "perheadamount, totalamount, vehicle) "
+                "VALUES (:advancebookingid, :mobilenumber, :admin, "
+                ":advancebookingdate, :advancebookingtime, :advance, :destination, "
+                ":departuredate, :departuretime, :arrivaldate, "
+                ":arrivaltime, :numpassengers, :perheadamount, "
+                ":totalamount, :vehicle)");
+    qry.bindValue(":advancebookingid", advance.advanceBookingId);
+    qry.bindValue(":mobilenumber", advance.mobileNumber);
+    qry.bindValue(":admin", advance.adminName);
+    qry.bindValue(":advancebookingdate", advance.advanceBookingDate);
+    qry.bindValue(":advancebookingtime", advance.advanceBookingTime);
+    qry.bindValue(":advance", advance.advance);
+    qry.bindValue(":destination", advance.destination);
+    qry.bindValue(":departuredate", advance.departureDate);
+    qry.bindValue(":departuretime", advance.departureTime);
+    qry.bindValue(":arrivaldate", advance.arrivalDate);
+    qry.bindValue(":arrivaltime", advance.arrivalTime);
+    qry.bindValue(":numpassengers", advance.numPassengers);
+    qry.bindValue(":perheadamount", advance.perHeadAmount);
+    qry.bindValue(":totalamount", advance.totalAmount);
+    qry.bindValue(":vehicle", advance.vehicle);
+
+     if( !qry.exec() )
+       qDebug() << qry.lastError();
+     else
+       qDebug( "Inserted advance entry!" );
+}
+
 void DbManager::addExpenseEntry(const DbExpense& expense)
 {
     _addExpense(expense);
@@ -237,6 +303,11 @@ void DbManager::addTripEntry(const DbTrip& trip)
     _addTrip(trip);
 }
 
+void DbManager::addAdvanceEntry(const DbAdvance& advance)
+{
+    _addAdvance(advance);
+}
+
 qint64 DbManager::getMaxBookingID(void)
 {
     QSqlQuery qry;
@@ -251,6 +322,28 @@ qint64 DbManager::getMaxBookingID(void)
             maxBookingId = qry.value(0).toLongLong();
         }
         return maxBookingId;
+     }
+     else
+     {
+       qDebug() << qry.lastError();
+       /* There is some error, DIE here*/
+     }
+}
+
+qint64 DbManager::getMaxAdvanceBookingID(void)
+{
+    QSqlQuery qry;
+    qint64 maxAdvanceBookingId;
+
+    qry.prepare("SELECT ifnull(MAX(advancebookingid), 0) FROM advance");
+
+     if (qry.exec())
+     {
+        if (qry.next())
+        {
+            maxAdvanceBookingId = qry.value(0).toLongLong();
+        }
+        return maxAdvanceBookingId;
      }
      else
      {
@@ -342,6 +435,66 @@ void DbManager::getAllBookingHistory(QList <QHash <QString, QString>>& allBookin
      else
      {
        qDebug() << "booking table querry failed" << qry.lastError();
+       /* There is some error, DIE here*/
+     }
+}
+
+void DbManager::getAllAdvanceBookingHistory(QList <QHash <QString, QString>>& allAdvanceBookings)
+{
+    QSqlQuery qry;
+    QHash <QString, QString> tempHash;
+
+    qry.prepare("SELECT advancebookingid, advancebookingdate, advancebookingtime, "
+                "advance, destination, departuredate, departuretime, "
+                "arrivaldate, arrivaltime, numpassengers, perheadamount, totalamount, "
+                "vehicle, mobilenumber FROM advance ORDER BY advancebookingid DESC");
+
+     if (qry.exec())
+     {
+        while (qry.next())
+        {
+            QSqlQuery nameQry;
+            qint64 mobileNUmber;
+            qint64 advanceBookingId;
+
+            advanceBookingId = qry.value(0).toLongLong();
+            tempHash["bookingid"] = qry.value(0).toString();
+            tempHash["bookingdatetime"]= qry.value(1).toString() + " " + qry.value(2).toString();
+            tempHash["advance"]= qry.value(3).toString();
+            tempHash["destinations"]= qry.value(4).toString();
+            tempHash["departuredatetime"]= qry.value(5).toString() + " " + qry.value(6).toString();
+            tempHash["arrivaldatetime"]= qry.value(7).toString() + " " + qry.value(8).toString();
+            tempHash["numpassengers"]= qry.value(9).toString();
+            tempHash["perheadamount"]= qry.value(10).toString();
+            tempHash["totalamount"]= qry.value(11).toString();
+            tempHash["vehicle"]= qry.value(12).toString();
+            tempHash["mobilenumber"]= qry.value(13).toString();
+            mobileNUmber = qry.value(13).toLongLong();
+
+            /*Query cutomer Name */
+            nameQry.prepare("SELECT firstname, lastname FROM user "
+                            "WHERE mobileno=:mobilenumber");
+            nameQry.bindValue(":mobilenumber", mobileNUmber);
+            if (nameQry.exec())
+            {
+               if (nameQry.next())
+               {
+                   tempHash["customername"] = nameQry.value(0).toString() + " " +
+                                              nameQry.value(1).toString();
+               }
+            }
+            else
+            {
+              qDebug()  << "user table querry failed" << qry.lastError();
+              /* There is some error, DIE here*/
+            }
+            /* Add the hash table to the list */
+            allAdvanceBookings.append(tempHash);
+        }
+     }
+     else
+     {
+       qDebug() << "advance table querry failed" << qry.lastError();
        /* There is some error, DIE here*/
      }
 }
@@ -460,6 +613,41 @@ void DbManager::_getTrip(DbTrip& trip, qint64 bookingId)
     }
 }
 
+void DbManager::_getAdvance(DbAdvance& advance, qint64 advanceBookingId)
+{
+    QSqlQuery qry;
+
+    qry.prepare("SELECT * FROM advance WHERE advancebookingid=:advancebookingid");
+    qry.bindValue(":advancebookingid", advanceBookingId);
+
+    if (qry.exec())
+    {
+        qDebug( "fetched advance entry!");
+        if (qry.next())
+        {
+            advance.advanceBookingId = qry.value(0).toLongLong();
+            advance.mobileNumber = qry.value(1).toLongLong();
+            advance.adminName = qry.value(2).toString();
+            advance.advanceBookingDate = qry.value(3).toString();
+            advance.advanceBookingTime = qry.value(4).toString();
+            advance.advance = qry.value(5).toLongLong();
+            advance.destination = qry.value(6).toString();
+            advance.departureDate = qry.value(7).toString();
+            advance.departureTime = qry.value(8).toString();
+            advance.arrivalDate = qry.value(9).toString();
+            advance.arrivalTime = qry.value(10).toString();
+            advance.numPassengers = qry.value(11).toInt();
+            advance.perHeadAmount = qry.value(12).toInt();
+            advance.totalAmount = qry.value(13).toLongLong();
+            advance.vehicle = qry.value(14).toString();
+        }
+    }
+    else
+    {
+        qDebug() << "Error getting advance entry" << qry.lastError();
+    }
+}
+
 void DbManager::getExpenseEntry(DbExpense& expense, qint64 bookingId)
 {
     _getExpense(expense, bookingId);
@@ -478,6 +666,11 @@ void DbManager::getBookingEntry(DbBooking& booking, qint64 bookingId)
 void DbManager::getTripEntry(DbTrip& trip, qint64 bookingId)
 {
     _getTrip(trip, bookingId);
+}
+
+void DbManager::getAdvanceEntry(DbAdvance& advance, qint64 advanceBookingId)
+{
+    _getAdvance(advance, advanceBookingId);
 }
 
 void DbManager::_deleteExpense(qint64 bookingId)
@@ -548,6 +741,23 @@ void DbManager::_deleteTrip(qint64 bookingId)
     }
 }
 
+void DbManager::_deleteAdvance(qint64 advanceBookingId)
+{
+    QSqlQuery qry;
+
+    qry.prepare("DELETE FROM advance WHERE advancebookingid=:adancebookingid");
+    qry.bindValue(":advancebookingid", advanceBookingId);
+
+    if (qry.exec())
+    {
+        qDebug( "deleted advance entry!");
+    }
+    else
+    {
+        qDebug() << "Error deleting advance entry" << qry.lastError();
+    }
+}
+
 void DbManager::deleteExpenseEntry(qint64 bookingId)
 {
     _deleteExpense(bookingId);
@@ -566,6 +776,11 @@ void DbManager::deleteBookingEntry(qint64 bookingId)
 void DbManager::deleteTripEntry(qint64 bookingId)
 {
     _deleteTrip(bookingId);
+}
+
+void DbManager::deleteAdvanceEntry(qint64 advanceBookingId)
+{
+    _deleteAdvance(advanceBookingId);
 }
 
 qint32 DbManager::getTotalExpenseCustom(QString startDate, QString startTime,
