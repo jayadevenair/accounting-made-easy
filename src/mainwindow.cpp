@@ -83,9 +83,12 @@ void MainWindow::fillAccountsTree(void)
         bookingNode->setText(1, booking["bookingdate"]);
         bookingNode->setText(2, booking["bookingtime"]);
         bookingNode->setText(3, booking["customername"]);
-        bookingNode->setText(4, booking["mobileno"]);
+        bookingNode->setText(4, booking["mobilenumber"]);
         bookingNode->setText(5, booking["destinations"]);
-        bookingNode->setText(6, booking["profit"]);
+        bookingNode->setText(6, booking["totalincome"]);
+        bookingNode->setText(7, booking["totalexpense"]);
+        bookingNode->setText(8, booking["profit"]);
+
 
         ui->treeWidgetAccounts->addTopLevelItem(bookingNode);
     }
@@ -101,7 +104,10 @@ void MainWindow::fillAdvanceBookingTree(void)
 
     foreach(booking, allAdvanceBookings)
     {
+        QDateTime currentDateTime = QDateTime::currentDateTime();
         QTreeWidgetItem *advanceBookingNode = new QTreeWidgetItem;
+        QString now;
+
         advanceBookingNode->setText(0, booking["bookingid"]);
         advanceBookingNode->setText(1, booking["bookingdatetime"]);
         advanceBookingNode->setText(2, booking["customername"]);
@@ -114,7 +120,14 @@ void MainWindow::fillAdvanceBookingTree(void)
         advanceBookingNode->setText(9, booking["perheadamount"]);
         advanceBookingNode->setText(10, booking["totalamount"]);
 
-        ui->treeWidgetUpcomingTrips->addTopLevelItem(advanceBookingNode);
+        now = currentDateTime.date().toString(Qt::ISODate) + " " + currentDateTime.time().toString();
+        if (now > booking["arrivaldatetime"]) {
+            ui->treeWidgetPastTrips->addTopLevelItem(advanceBookingNode);
+        } else if (now < booking["departuredatetime"]) {
+            ui->treeWidgetUpcomingTrips->addTopLevelItem(advanceBookingNode);
+        } else {
+            ui->treeWidgetOngoingTrips->addTopLevelItem(advanceBookingNode);
+        }
     }
     ui->treeWidgetUpcomingTrips->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->treeWidgetOngoingTrips->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
@@ -124,47 +137,104 @@ void MainWindow::fillAdvanceBookingTree(void)
 void MainWindow::on_action_Open_triggered()
 {
     QTreeWidgetItem *selectedItem;
-    QHash <QString, QString> newBookingCache;
-    NewQuotationDialogue *quot = new NewQuotationDialogue;
-    qint64 bookingId;
 
-    selectedItem = ui->treeWidgetAccounts->selectedItems()[0];
-    bookingId = selectedItem->text(0).toLongLong();
+    if (ui->tabWidgetTopLevel->currentIndex() == ADVANCE_BOOKING_TAB) {
+        AdvanceBooking *adv = new AdvanceBooking;
+        qint64 advanceBookingId;
 
-    quot->updateInProgress = true;
-    quot->initQuotationDialogue(bookingId);
-    quot->exec();
-    if (quot->result() == QDialog::Accepted)
-    {
-        deleteAllBookingFromTree();
-        fillAccountsTree();
+        switch(ui->tabWidgetAdvanceBooking->currentIndex()) {
+            case UPCOMING_TRIPS:
+                selectedItem = ui->treeWidgetUpcomingTrips->selectedItems()[0];
+                break;
+
+            case ONGOING_TRIPS:
+                selectedItem = ui->treeWidgetOngoingTrips->selectedItems()[0];
+                break;
+
+            case PAST_TRIPS:
+                selectedItem = ui->treeWidgetPastTrips->selectedItems()[0];
+                break;
+        }
+        advanceBookingId = selectedItem->text(0).toLongLong();
+
+        adv->updateInProgress = true;
+        adv->initQuotationDialogue(advanceBookingId);
+        adv->exec();
+        if (adv->result() == QDialog::Accepted)
+        {
+            deleteAllAdvanceBookingFromTree();
+            fillAdvanceBookingTree();
+        }
+    } else if (ui->tabWidgetAdvanceBooking->currentIndex() == ACCOUNTS_TAB) {
+        NewQuotationDialogue *quot = new NewQuotationDialogue;
+        qint64 bookingId;
+
+        selectedItem = ui->treeWidgetAccounts->selectedItems()[0];
+        bookingId = selectedItem->text(0).toLongLong();
+
+        quot->updateInProgress = true;
+        quot->initQuotationDialogue(bookingId);
+        quot->exec();
+        if (quot->result() == QDialog::Accepted)
+        {
+            deleteAllBookingFromTree();
+            fillAccountsTree();
+        }
     }
 }
 
 void MainWindow::on_actionDelete_triggered()
 {
     QTreeWidgetItem *selectedItem;
-    QHash <QString, QString> newBookingCache;
-    qint64 bookingId;
 
-    selectedItem = ui->treeWidgetAccounts->selectedItems()[0];
-    bookingId = selectedItem->text(0).toLongLong();
-    DbManager::deleteBookingEntry(bookingId);
-    DbManager::deleteTripEntry(bookingId);
-    DbManager::deleteExpenseEntry(bookingId);
-    deleteAllBookingFromTree();
-    fillAccountsTree();
+    if (ui->tabWidgetTopLevel->currentIndex() == ADVANCE_BOOKING_TAB) {
+        qint64 advanceBookingId;
+
+        switch(ui->tabWidgetAdvanceBooking->currentIndex()) {
+            case UPCOMING_TRIPS:
+                selectedItem = ui->treeWidgetUpcomingTrips->selectedItems()[0];
+                break;
+
+            case ONGOING_TRIPS:
+                selectedItem = ui->treeWidgetOngoingTrips->selectedItems()[0];
+                break;
+
+            case PAST_TRIPS:
+                selectedItem = ui->treeWidgetPastTrips->selectedItems()[0];
+                break;
+        }
+
+        advanceBookingId = selectedItem->text(0).toLongLong();
+        DbManager::deleteAdvanceEntry(advanceBookingId);
+        deleteAllAdvanceBookingFromTree();
+        fillAdvanceBookingTree();
+    } else if (ui->tabWidgetTopLevel->currentIndex() == ACCOUNTS_TAB) {
+        qint64 bookingId;
+
+        selectedItem = ui->treeWidgetAccounts->selectedItems()[0];
+        bookingId = selectedItem->text(0).toLongLong();
+        DbManager::deleteBookingEntry(bookingId);
+        DbManager::deleteTripEntry(bookingId);
+        DbManager::deleteExpenseEntry(bookingId);
+        deleteAllBookingFromTree();
+        fillAccountsTree();
+    }
 }
 
 void MainWindow::deleteAllBookingFromTree()
 {
-    ui->treeWidgetAccounts->clear();
+    while (auto item = ui->treeWidgetAccounts->takeTopLevelItem(0))
+        delete item;
 }
 
 void MainWindow::deleteAllAdvanceBookingFromTree()
 {
-    ui->treeWidgetUpcomingTrips->clear();
-    ui->treeWidgetPastTrips->clear();
+    while (auto itemUpcoming = ui->treeWidgetUpcomingTrips->takeTopLevelItem(0))
+        delete itemUpcoming;
+    while (auto itemOngoing = ui->treeWidgetOngoingTrips->takeTopLevelItem(0))
+        delete itemOngoing;
+    while (auto itemPast = ui->treeWidgetPastTrips->takeTopLevelItem(0))
+        delete itemPast;
 }
 
 void MainWindow::loadFinishedSimpleBill(bool ok)

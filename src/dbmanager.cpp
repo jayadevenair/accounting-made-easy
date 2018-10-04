@@ -81,7 +81,8 @@ void DbManager::createTripTable(void)
                 "arrivaltime VARCHAR(30), "
                 "numpassengers INITIGER, "
                 "numstaffs INTIGER, "
-                "vehicle VARCHAR(30))");
+                "vehicle VARCHAR(30), "
+                "guidename VARCHAR(30))");
     if(!qry.exec())
     {
         qDebug() << qry.lastError();
@@ -229,9 +230,9 @@ void DbManager::_addTrip(const DbTrip& trip)
     QSqlQuery qry;
 
     qry.prepare("REPLACE INTO trip (bookingid, destination, departuredate, departuretime, "
-                "arrivaldate, arrivaltime, numpassengers, numstaffs, vehicle) "
+                "arrivaldate, arrivaltime, numpassengers, numstaffs, vehicle, guidename) "
                 "VALUES (:bookingid, :destination, :departuredate, :departuretime, :arrivaldate, "
-                ":arrivaltime, :numpassengers, :numstaffs, :vehicle)");
+                ":arrivaltime, :numpassengers, :numstaffs, :vehicle, :guidename)");
     qry.bindValue(":bookingid", trip.bookingId);
     qry.bindValue(":destination", trip.destination);
     qry.bindValue(":departuredate", trip.departureDate);
@@ -241,6 +242,7 @@ void DbManager::_addTrip(const DbTrip& trip)
     qry.bindValue(":numpassengers", trip.numPassengers);
     qry.bindValue(":numstaffs", trip.numStaffs);
     qry.bindValue(":vehicle", trip.vehicle);
+    qry.bindValue(":guidename", trip.guideName);
 
      if( !qry.exec() )
        qDebug() << qry.lastError();
@@ -374,6 +376,7 @@ void DbManager::getAllBookingHistory(QList <QHash <QString, QString>>& allBookin
             tempHash["bookingid"] = qry.value(0).toString();
             tempHash["bookingdate"]= qry.value(1).toString();
             tempHash["bookingtime"]= qry.value(2).toString();
+            tempHash["mobilenumber"]= qry.value(3).toString();
             mobileNUmber = qry.value(3).toLongLong();
 
             /*Query cutomer Name */
@@ -412,7 +415,7 @@ void DbManager::getAllBookingHistory(QList <QHash <QString, QString>>& allBookin
             }
 
             /*Query profit*/
-            profitQry.prepare("SELECT profit FROM expense "
+            profitQry.prepare("SELECT profit, totalexpense, totalreturn FROM expense "
                             "WHERE bookingid = :bookingid");
             profitQry.bindValue(":bookingid", bookingId);
             if (profitQry.exec())
@@ -420,6 +423,8 @@ void DbManager::getAllBookingHistory(QList <QHash <QString, QString>>& allBookin
                if (profitQry.next())
                {
                    tempHash["profit"] = profitQry.value(0).toString();
+                   tempHash["totalexpense"] = profitQry.value(1).toString();
+                   tempHash["totalincome"] = profitQry.value(2).toString();
                }
             }
             else
@@ -458,6 +463,7 @@ void DbManager::getAllAdvanceBookingHistory(QList <QHash <QString, QString>>& al
             qint64 advanceBookingId;
 
             advanceBookingId = qry.value(0).toLongLong();
+            qDebug() << advanceBookingId;
             tempHash["bookingid"] = qry.value(0).toString();
             tempHash["bookingdatetime"]= qry.value(1).toString() + " " + qry.value(2).toString();
             tempHash["advance"]= qry.value(3).toString();
@@ -605,6 +611,7 @@ void DbManager::_getTrip(DbTrip& trip, qint64 bookingId)
             trip.numPassengers = qry.value(6).toInt();
             trip.numStaffs = qry.value(7).toInt();
             trip.vehicle = qry.value(8).toString();
+            trip.guideName = qry.value(9).toString();
         }
     }
     else
@@ -745,12 +752,12 @@ void DbManager::_deleteAdvance(qint64 advanceBookingId)
 {
     QSqlQuery qry;
 
-    qry.prepare("DELETE FROM advance WHERE advancebookingid=:adancebookingid");
+    qry.prepare("DELETE FROM advance WHERE advancebookingid=:advancebookingid");
     qry.bindValue(":advancebookingid", advanceBookingId);
 
     if (qry.exec())
     {
-        qDebug( "deleted advance entry!");
+        qDebug() << "deleted advance entry!";
     }
     else
     {

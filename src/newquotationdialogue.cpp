@@ -91,7 +91,6 @@ void NewQuotationDialogue::extractFieldsFromDialogueBox(void)
     QSpinBox *numStaffs = ui->spinBoxNoStaffs;
     trip.numStaffs = numStaffs->value();
 
-
     /* Extract expense data */
     expense.bookingId = bookingId;
 
@@ -212,9 +211,9 @@ void NewQuotationDialogue::initQuotationDialogue(qint64 bookingId)
 
     /* trip details */
     ui->lineEditDestinations->setText(trip.destination);
-    ui->dateTimeEditDeparture->setDate(QDate::fromString(trip.departureDate));
+    ui->dateTimeEditDeparture->setDate(QDate::fromString(trip.departureDate, Qt::ISODate));
     ui->dateTimeEditDeparture->setTime(QTime::fromString(trip.departureTime));
-    ui->dateTimeEditArrival->setDate(QDate::fromString(trip.arrivalDate));
+    ui->dateTimeEditArrival->setDate(QDate::fromString(trip.arrivalDate, Qt::ISODate));
     ui->dateTimeEditArrival->setTime(QTime::fromString(trip.arrivalTime));
     ui->lineEditVehicle->setText(trip.vehicle);
     ui->spinBoxNoPassengers->setValue(trip.numPassengers);

@@ -24,11 +24,16 @@ private slots:
 
     void on_buttonBox_rejected();
 
+    void on_lineEditPerHeadAmount_textChanged(const QString &arg1);
+
+    void on_spinBoxNoPassengers_valueChanged(int arg1);
+
 private:
     Ui::AdvanceBooking *ui;
     void setupUiHuman(void);
     void extractFieldsFromDialogueBox(void);
     qint64 getNextAdvanceBookingId(void);
+    void calculateTotalAmount(qint16 numPassengers, qint32 perHeadAmount);
     DbUser user;
     DbExpense expense;
     DbBooking booking;

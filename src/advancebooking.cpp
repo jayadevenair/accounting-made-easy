@@ -121,6 +121,9 @@ void AdvanceBooking::setupUiHuman(void)
     QLineEdit *advanceAmount = ui->lineEditAdvanceAmount;
     advanceAmount->setValidator(new QIntValidator(this));
 
+    QLineEdit *perHeadAmount = ui->lineEditPerHeadAmount;
+    perHeadAmount->setValidator(new QIntValidator(this));
+
     QDateTimeEdit *departureDateTime = ui->dateTimeEditDeparture;
     departureDateTime->setDateTime(QDateTime::currentDateTime());
 
@@ -164,13 +167,38 @@ void AdvanceBooking::initQuotationDialogue(qint64 advanceBookingId)
 
     /* advance details */
     ui->lineEditDestinations->setText(advance.destination);
-    ui->dateTimeEditDeparture->setDate(QDate::fromString(advance.departureDate));
+    ui->dateTimeEditDeparture->setDate(QDate::fromString(advance.departureDate, Qt::ISODate));
     ui->dateTimeEditDeparture->setTime(QTime::fromString(advance.departureTime));
-    ui->dateTimeEditArrival->setDate(QDate::fromString(advance.arrivalDate));
+    ui->dateTimeEditArrival->setDate(QDate::fromString(advance.arrivalDate, Qt::ISODate));
     ui->dateTimeEditArrival->setTime(QTime::fromString(advance.arrivalTime));
     ui->lineEditVehicle->setText(advance.vehicle);
     ui->spinBoxNoPassengers->setValue(advance.numPassengers);
     ui->lineEditPerHeadAmount->setText(QString::number(advance.perHeadAmount));
     ui->lineEditTotalAmount->setText(QString::number(advance.totalAmount));
+    ui->lineEditAdvanceAmount->setText(QString::number(advance.advance));
     ui->lineEditAdminName->setText(advance.adminName);
+}
+
+void AdvanceBooking::on_lineEditPerHeadAmount_textChanged(const QString &arg1)
+{
+    qint16 numPassengers;
+
+    numPassengers = ui->spinBoxNoPassengers->value();
+    calculateTotalAmount(numPassengers, arg1.toInt());
+}
+
+void AdvanceBooking::calculateTotalAmount(qint16 numPassengers, qint32 perHeadAmount) {
+    qint64 totalAmount;
+
+    totalAmount = numPassengers * perHeadAmount;
+    ui->lineEditTotalAmount->setText(QString::number(totalAmount));
+}
+
+
+void AdvanceBooking::on_spinBoxNoPassengers_valueChanged(int arg1)
+{
+    qint32 perHeadAmount;
+
+    perHeadAmount = ui->lineEditPerHeadAmount->text().toInt();
+    calculateTotalAmount(arg1, perHeadAmount);
 }

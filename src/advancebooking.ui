@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Advance Booking</string>
   </property>
   <widget class="QFrame" name="frameTravelDetails">
    <property name="geometry">
@@ -427,6 +427,26 @@
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>lineEditFirstName</tabstop>
+  <tabstop>lineEditLastName</tabstop>
+  <tabstop>lineEditAddressLine1</tabstop>
+  <tabstop>lineEditAddressLine2</tabstop>
+  <tabstop>lineEditCity</tabstop>
+  <tabstop>lineEditState</tabstop>
+  <tabstop>lineEditDistrict</tabstop>
+  <tabstop>lineEditPinCode</tabstop>
+  <tabstop>lineEditMobileNo</tabstop>
+  <tabstop>lineEditDestinations</tabstop>
+  <tabstop>dateTimeEditDeparture</tabstop>
+  <tabstop>dateTimeEditArrival</tabstop>
+  <tabstop>lineEditVehicle</tabstop>
+  <tabstop>spinBoxNoPassengers</tabstop>
+  <tabstop>lineEditPerHeadAmount</tabstop>
+  <tabstop>lineEditTotalAmount</tabstop>
+  <tabstop>lineEditAdvanceAmount</tabstop>
+  <tabstop>lineEditAdminName</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
