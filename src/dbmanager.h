@@ -105,16 +105,18 @@ public:
     static qint64 getMaxAdvanceBookingID(void);
     static void getAllBookingHistory(QList <QHash <QString, QString>>& allBookings);
     static void getAllAdvanceBookingHistory(QList <QHash <QString, QString>>& allAdvanceBookings);
-    static qint32 getTotalExpenseCustom(QString startDate, QString startTime,
-                                        QString endDate, QString endTime);
-    static qint32 getTotalReturnCustom(QString startDate, QString startTime,
-                                       QString endDate, QString endTime);
+    static qint32 getTotalExpenseCustom(QString startDate, QString endDate);
+    static qint32 getTotalReturnCustom(QString startDate, QString endDate);
+    static qint32 getTotalProfitCustom(QString startDate, QString endDate);
     static qint32 getTotalExpenseYearly(QString year);
     static qint32 getTotalReturnYearly(QString year);
+    static qint32 getTotalProfitYearly(QString year);
     static qint32 getTotalExpenseMonthly(QString month);
     static qint32 getTotalReturnMonthly(QString month);
+    static qint32 getTotalProfitMonthly(QString month);
     static qint32 getTotalExpenseDaily(QString day);
     static qint32 getTotalReturnDaily(QString day);
+    static qint32 getTotalProfitDaily(QString day);
 private:
     void createTripTable(void);
     void createUserTable(void);
@@ -138,6 +140,7 @@ private:
     static void _deleteAdvance(qint64 advanceBookingId);
     static qint32 getTotalExpenseDatePattern(QString pattern);
     static qint32 getTotalReturnDatePattern(QString pattern);
+    static qint32 getTotalProfitDatePattern(QString pattern);
     QSqlDatabase m_db;
 };
 
