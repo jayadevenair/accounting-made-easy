@@ -9,15 +9,24 @@
 #include <QFile>
 #include <QPrinter>
 #include <QWebEngineView>
+#include <QDir>
 
-static const QString dbPath = "/home/ejayadev/mydata.db";
+static const QString dbDirSuffix = "/Documents/accountingmadeeasy";
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    QString dbDir;
+
     ui->setupUi(this);
-    db = new DbManager(dbPath);
+
+    dbDir = QDir::homePath() + dbDirSuffix;
+    QDir dir(dbDir);
+    if (!dir.exists())
+        dir.mkpath(".");
+    db = new DbManager(dbDir + "/mydata.db");
+
     msimpleBillPage = new QWebEnginePage;
     mgstBillPage = new QWebEnginePage;
     connect(msimpleBillPage, &QWebEnginePage::loadFinished,
